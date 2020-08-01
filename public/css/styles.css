@@ -7,9 +7,6 @@ li {
   list-style-type: none;
 }
 
-.logout-button {
-  float: right;
-}
 /* ======================================footer====================================== */
 .footer {
   background: rgba(0, 0, 0, 0.9);
