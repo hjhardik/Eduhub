@@ -18,4 +18,13 @@ router.get("/dashboard", ensureAuthenticated, (req, res) => {
   }
 });
 
+router.get("/createCourse", ensureAuthenticated, (req, res) => {
+  if (req.user.role == "student") {
+    req.flash("error_msg", "Only available for teachers.");
+    res.redirect("/dashboard");
+  } else {
+    res.render("createCourse");
+  }
+});
+
 module.exports = router;
