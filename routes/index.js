@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
 const Course = require("../models/Course");
@@ -27,10 +28,42 @@ router.get("/createCourse", ensureAuthenticated, (req, res) => {
     res.render("createCourse");
   }
 });
+//=====================file upload======================
+//set storage engine
+const storage = multer.diskStorage({
+  destination: "./../public/uploads",
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+//init upload
+const upload = multer({
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    checkFileType(file, cb);
+  },
+}).single("pdfFile1");
+//check file type
+function checkFileType(file, cb) {
+  //allowed extensions
+  const fileTypes = /pdf/;
+  //check ext
+  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+  //check mime
+  const mimetype = fileTypes.test(file.mimetype);
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb("Error : PDF files(.pdf) only");
+  }
+}
 
+//====================================================
 router.post("/createCourse", (req, res) => {
   const teacherName = req.user.name;
-  console.log(req.body);
   const { courseName, subjectName, totalTopics, description } = req.body;
   let no_topics = parseInt(totalTopics);
   let errors = [];
@@ -48,6 +81,7 @@ router.post("/createCourse", (req, res) => {
       description,
     });
   } else {
+    console.log(req.body);
     const newCourse = new Course({
       courseName,
       subjectName,

@@ -1,6 +1,6 @@
 <h2 class="mt-4">Create New Course</h2>
 <% include ./partials/messages %>
-<form action="/createCourse" method="POST">
+<form action="/createCourse" method="POST" enctype="multipart/form-data">
   <div class="form-group">
     <label class="col-form-label" for="inputDefault">Course Name</label>
     <input

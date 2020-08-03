@@ -19,6 +19,26 @@ const courseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  fileOne: {
+    type: String,
+    required: true,
+  },
+  fileTwo: {
+    type: String,
+    default: null,
+  },
+  fileThird: {
+    type: String,
+    default: null,
+  },
+  fileFour: {
+    type: String,
+    default: null,
+  },
+  fileFive: {
+    type: String,
+    default: null,
+  },
   description: {
     type: String,
     required: true,
