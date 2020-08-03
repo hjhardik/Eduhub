@@ -4,6 +4,7 @@ const courseSchema = new mongoose.Schema({
   courseName: {
     type: String,
     required: true,
+    maxlength: 50,
   },
   teacherName: {
     type: String,
@@ -12,10 +13,16 @@ const courseSchema = new mongoose.Schema({
   subject: {
     type: String,
     required: true,
+    maxlength: 20,
   },
   topics: {
     type: Number,
     required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+    maxlength: 50,
   },
   date: {
     type: Date,
