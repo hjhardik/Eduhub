@@ -47,16 +47,4 @@
   <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
 </div>
 <button type="submit" class="btn btn-primary btn-block">Create +</button>
-
-<script>
-  $("#inputPdf").change(function () {
-    var value = +$(this).val();
-    value *= 1;
-    var nr = 0;
-    var elem = $("#pdfElement").empty();
-    while (nr < value) {
-      elem.append($("<input>", { name: "whateverNameYouWant" }));
-      nr++;
-    }
-  });
-</script>
+<script src="/js/createcourse.js"></script>
