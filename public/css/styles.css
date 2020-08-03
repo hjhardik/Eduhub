@@ -6,7 +6,15 @@
 li {
   list-style-type: none;
 }
-
+.fileButton {
+  margin-bottom: 4px;
+}
+.topicBox {
+  display: block;
+}
+.topicBox:not(:last-child) {
+  margin-bottom: 8px;
+}
 /* ======================================footer====================================== */
 .footer {
   background: rgba(0, 0, 0, 0.9);
