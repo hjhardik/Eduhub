@@ -31,7 +31,7 @@ router.get("/createCourse", ensureAuthenticated, (req, res) => {
 //=====================file upload======================
 //set storage engine
 const storage = multer.diskStorage({
-  destination: "./../public/uploads",
+  destination: "./public/uploads",
   filename: function (req, file, cb) {
     cb(
       null,
@@ -43,6 +43,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   fileFilter: function (req, file, cb) {
+    console.log("checking file");
     checkFileType(file, cb);
   },
 }).single("pdfFile1");
@@ -55,21 +56,23 @@ function checkFileType(file, cb) {
   //check mime
   const mimetype = fileTypes.test(file.mimetype);
   if (mimetype && extname) {
+    console.log("True nigga");
     return cb(null, true);
   } else {
+    console.log("PDf file only bro");
     cb("Error : PDF files(.pdf) only");
   }
 }
 
 //====================================================
-router.post("/createCourse", (req, res) => {
+router.post("/createCourse", upload, (req, res) => {
+  console.log(req);
   const teacherName = req.user.name;
   const { courseName, subjectName, totalTopics, description } = req.body;
-  let no_topics = parseInt(totalTopics);
   let errors = [];
 
   // form validation
-  if (!courseName || !subjectName || !no_topics || !description) {
+  if (!courseName || !subjectName || !parseInt(totalTopics) || !description) {
     errors.push({ msg: "Please enter all fields" });
   }
 
@@ -81,12 +84,21 @@ router.post("/createCourse", (req, res) => {
       description,
     });
   } else {
-    console.log(req.body);
     const newCourse = new Course({
       courseName,
       subjectName,
       teacherName,
       totalTopics,
+      fileOne: req.file.filename,
+      topicOne: req.body.topic1,
+      fileTwo: req.file.filename,
+      topicTwo: req.body.topic2,
+      fileThree: req.file.filename,
+      topicThree: req.body.topic3,
+      fileFour: req.file.filename,
+      topicFour: req.body.topic4,
+      fileFive: req.file.filename,
+      topicFive: req.body.topic5,
       description,
     });
     newCourse
