@@ -3,6 +3,7 @@ const multer = require("multer");
 const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
 const Course = require("../models/Course");
+const path = require("path");
 
 // Welcome Page
 router.get("/", forwardAuthenticated, (req, res) => res.render("welcome"));
@@ -46,7 +47,28 @@ const upload = multer({
     console.log("checking file");
     checkFileType(file, cb);
   },
-}).single("pdfFile1");
+}).fields([
+  {
+    name: "pdfFile1",
+    maxCount: 1,
+  },
+  {
+    name: "pdfFile2",
+    maxCount: 1,
+  },
+  {
+    name: "pdfFile3",
+    maxCount: 1,
+  },
+  {
+    name: "pdfFile4",
+    maxCount: 1,
+  },
+  {
+    name: "pdfFile5",
+    maxCount: 1,
+  },
+]);
 //check file type
 function checkFileType(file, cb) {
   console.log("checking files");
