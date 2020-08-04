@@ -19,30 +19,46 @@ const courseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  fileOne: {
-    type: String,
-    required: true,
-  },
+  // fileOne: {
+  //   type: String,
+  //   required: true,
+  // },
+  // topicOne:{
+  //   type: String,
+  //   required: true,
+  // },
   fileTwo: {
     type: String,
     default: null,
+  },
+  topicTwo: {
+    type: String,
   },
   fileThird: {
     type: String,
     default: null,
   },
+  topicThree: {
+    type: String,
+  },
   fileFour: {
     type: String,
     default: null,
+  },
+  topicFour: {
+    type: String,
   },
   fileFive: {
     type: String,
     default: null,
   },
+  topicFive: {
+    type: String,
+  },
   description: {
     type: String,
     required: true,
-    maxlength: 100,
+    maxlength: 50,
   },
   date: {
     type: Date,

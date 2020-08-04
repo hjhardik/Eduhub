@@ -49,6 +49,7 @@ const upload = multer({
 }).single("pdfFile1");
 //check file type
 function checkFileType(file, cb) {
+  console.log("checking files");
   //allowed extensions
   const fileTypes = /pdf/;
   //check ext
@@ -66,7 +67,6 @@ function checkFileType(file, cb) {
 
 //====================================================
 router.post("/createCourse", upload, (req, res) => {
-  console.log(req);
   const teacherName = req.user.name;
   const { courseName, subjectName, totalTopics, description } = req.body;
   let errors = [];
@@ -75,6 +75,18 @@ router.post("/createCourse", upload, (req, res) => {
   if (!courseName || !subjectName || !parseInt(totalTopics) || !description) {
     errors.push({ msg: "Please enter all fields" });
   }
+
+  try {
+    if (
+      req.body.topic1 == "" ||
+      req.body.topic2 == "" ||
+      req.body.topic3 == "" ||
+      req.body.topic4 == "" ||
+      req.body.topic5 == ""
+    ) {
+      errors.push({ msg: "Please enter all fields" });
+    }
+  } catch {}
 
   if (errors.length > 0) {
     res.render("createCourse", {
@@ -89,16 +101,16 @@ router.post("/createCourse", upload, (req, res) => {
       subjectName,
       teacherName,
       totalTopics,
-      fileOne: req.file.filename,
-      topicOne: req.body.topic1,
-      fileTwo: req.file.filename,
-      topicTwo: req.body.topic2,
-      fileThree: req.file.filename,
-      topicThree: req.body.topic3,
-      fileFour: req.file.filename,
-      topicFour: req.body.topic4,
-      fileFive: req.file.filename,
-      topicFive: req.body.topic5,
+      // fileOne: req.file.filename,
+      // topicOne: req.body.topic1,
+      // fileTwo: req.file.filename,
+      // topicTwo: req.body.topic2,
+      // fileThree: req.file.filename,
+      // topicThree: req.body.topic3,
+      // fileFour: req.file.filename,
+      // topicFour: req.body.topic4,
+      // fileFive: req.file.filename,
+      // topicFive: req.body.topic5,
       description,
     });
     newCourse
