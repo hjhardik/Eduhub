@@ -19,14 +19,14 @@ const courseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  // fileOne: {
-  //   type: String,
-  //   required: true,
-  // },
-  // topicOne:{
-  //   type: String,
-  //   required: true,
-  // },
+  fileOne: {
+    type: String,
+    required: true,
+  },
+  topicOne: {
+    type: String,
+    required: true,
+  },
   fileTwo: {
     type: String,
     default: null,

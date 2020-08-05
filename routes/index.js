@@ -79,10 +79,8 @@ function checkFileType(file, cb) {
   //check mime
   const mimetype = fileTypes.test(file.mimetype);
   if (mimetype && extname) {
-    console.log("True nigga");
     return cb(null, true);
   } else {
-    console.log("PDf file only bro");
     cb("Error : PDF files(.pdf) only");
   }
 }
@@ -106,9 +104,14 @@ router.post("/createCourse", upload, (req, res) => {
       req.body.topic4 == "" ||
       req.body.topic5 == ""
     ) {
-      errors.push({ msg: "Please enter all fields" });
+      errors.push({ msg: "Please enter all topic fields." });
     }
   } catch {}
+  // try {
+  //   if(req.files.pdfFile1 || req.files.pdfFile1 || req.files.pdfFile1 || req.files.pdfFile1 || req.files.pdfFile1){
+
+  //   }
+  // } catch {}
 
   if (errors.length > 0) {
     res.render("createCourse", {
@@ -123,16 +126,16 @@ router.post("/createCourse", upload, (req, res) => {
       subjectName,
       teacherName,
       totalTopics,
-      // fileOne: req.file.filename,
-      // topicOne: req.body.topic1,
-      // fileTwo: req.file.filename,
-      // topicTwo: req.body.topic2,
-      // fileThree: req.file.filename,
-      // topicThree: req.body.topic3,
-      // fileFour: req.file.filename,
-      // topicFour: req.body.topic4,
-      // fileFive: req.file.filename,
-      // topicFive: req.body.topic5,
+      fileOne: req.files.pdfFile1[0].filename,
+      topicOne: req.body.topic1,
+      fileTwo: req.files.pdf2 ? req.files.pdfFile2[0].filename : null,
+      topicTwo: req.body.topic2 ? req.body.topic2 : null,
+      fileThree: req.files.pdf3 ? req.files.pdfFile3[0].filename : null,
+      topicThree: req.body.topic3 ? req.body.topic3 : null,
+      fileFour: req.files.pdf4 ? req.files.pdfFile4[0].filename : null,
+      topicFour: req.body.topic4 ? req.body.topic4 : null,
+      fileFive: req.files.pdfFile5 ? req.files.pdfFile5[0].filename : null,
+      topicFive: req.body.topic5 ? req.body.topic5 : null,
       description,
     });
     newCourse
