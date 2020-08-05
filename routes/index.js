@@ -44,7 +44,6 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   fileFilter: function (req, file, cb) {
-    console.log("checking file");
     checkFileType(file, cb);
   },
 }).fields([
@@ -71,7 +70,6 @@ const upload = multer({
 ]);
 //check file type
 function checkFileType(file, cb) {
-  console.log("checking files");
   //allowed extensions
   const fileTypes = /pdf/;
   //check ext
@@ -108,25 +106,42 @@ router.post("/createCourse", upload, (req, res) => {
     }
   } catch {}
 
-  if (!req.files.pdfFile1.length) {
-    errors.push({ msg: "Please upload the PDF for topic 1." });
+  if (totalTopics == 1) {
+    if (req.files.pdfFile1 == undefined) {
+      errors.push({ msg: "Please upload the required Pdf file." });
+    }
+  } else if (totalTopics == 2) {
+    if (req.files.pdfFile1 == undefined || req.files.pdfFile2 == undefined) {
+      errors.push({ msg: "Please upload all necessary PDFs." });
+    }
+  } else if (totalTopics == 3) {
+    if (
+      req.files.pdfFile1 == undefined ||
+      req.files.pdfFile2 == undefined ||
+      req.files.pdfFile3 == undefined
+    ) {
+      errors.push({ msg: "Please upload all necessary PDFs." });
+    }
+  } else if (totalTopics == 4) {
+    if (
+      req.files.pdfFile1 == undefined ||
+      req.files.pdfFile2 == undefined ||
+      req.files.pdfFile3 == undefined ||
+      req.files.pdfFile4 == undefined
+    ) {
+      errors.push({ msg: "Please upload all necessary PDFs." });
+    }
+  } else if (totalTopics == 5) {
+    if (
+      req.files.pdfFile1 == undefined ||
+      req.files.pdfFile2 == undefined ||
+      req.files.pdfFile3 == undefined ||
+      req.files.pdfFile4 == undefined ||
+      req.files.pdfFile5 == undefined
+    ) {
+      errors.push({ msg: "Please upload all necessary PDFs." });
+    }
   }
-
-  try {
-    if (!req.files.pdfFile2.length) {
-      errors.push({ msg: "Please upload pdf for topic 2." });
-    }
-  } catch {}
-  try {
-    if (!req.files.pdfFile3.length) {
-      errors.push({ msg: "Please upload pdf for topic 3." });
-    }
-  } catch {}
-  try {
-    if (!req.files.pdfFile4.length) {
-      errors.push({ msg: "Please upload pdf for topic 4." });
-    }
-  } catch {}
 
   if (errors.length > 0) {
     res.render("createCourse", {
