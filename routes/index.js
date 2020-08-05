@@ -107,11 +107,26 @@ router.post("/createCourse", upload, (req, res) => {
       errors.push({ msg: "Please enter all topic fields." });
     }
   } catch {}
-  // try {
-  //   if(req.files.pdfFile1 || req.files.pdfFile1 || req.files.pdfFile1 || req.files.pdfFile1 || req.files.pdfFile1){
 
-  //   }
-  // } catch {}
+  if (!req.files.pdfFile1.length) {
+    errors.push({ msg: "Please upload the PDF for topic 1." });
+  }
+
+  try {
+    if (!req.files.pdfFile2.length) {
+      errors.push({ msg: "Please upload pdf for topic 2." });
+    }
+  } catch {}
+  try {
+    if (!req.files.pdfFile3.length) {
+      errors.push({ msg: "Please upload pdf for topic 3." });
+    }
+  } catch {}
+  try {
+    if (!req.files.pdfFile4.length) {
+      errors.push({ msg: "Please upload pdf for topic 4." });
+    }
+  } catch {}
 
   if (errors.length > 0) {
     res.render("createCourse", {
