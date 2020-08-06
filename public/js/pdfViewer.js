@@ -26,9 +26,19 @@ const CLIENT_ID = require("./../../config/keys").API_CLIENT_ID; //ADOBE EMBED AP
 ga("create", TRACKING_ID, "auto");
 ga("send", "pageview");
 //==========================================================
+const viewerConfig = {
+  defaultViewMode: "FIT_PAGE", //default mode fit_page
+  embedMode: "SIZED_CONTAINER",
+  showPageControls: true, //controls
+  showAnnotationTools: true, //annotation tools
+  showDownloadPDF: true, //download option
+  showPrintPDF: true, //print option
+  showLeftHandPanel: false, //remove other options
+  dockPageControls: true, //dock
+};
 
 /// main view function
-function viewPdf(viewerConfig, name_pdf) {
+function viewPdf(courseTopic, pdfFileLocation) {
   document.addEventListener("adobe_dc_view_sdk.ready", function () {
     var adobeDCView = new AdobeDC.View({
       /* Pass your registered client id */
@@ -42,13 +52,13 @@ function viewPdf(viewerConfig, name_pdf) {
         content: {
           //enter the Location of PDF which needs to be displayed
           location: {
-            url: "./pdfFiles/website.pdf",
+            url: `./../uploads/${pdfFileLocation}`,
           },
         },
         /* Pass meta data of file */
         metaData: {
           /* file name */
-          fileName: name_pdf + ".pdf",
+          fileName: `${courseTopic}`,
         },
       },
       viewerConfig
