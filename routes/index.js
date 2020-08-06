@@ -9,14 +9,18 @@ const path = require("path");
 router.get("/", forwardAuthenticated, (req, res) => res.render("welcome"));
 
 // Dashboard
-router.get("/dashboard", ensureAuthenticated, (req, res) => {
+router.get("/dashboard", ensureAuthenticated, async (req, res) => {
   if (req.user.role == "student") {
     res.render("dashboard", {
       user: req.user,
     });
   } else {
+    const teacherCourses = await Course.find({
+      teacherName: req.user.name,
+    }).sort({ date: -1 });
     res.render("teacherDashboard", {
       user: req.user,
+      teacherCourses: teacherCourses,
     });
   }
 });
