@@ -173,14 +173,18 @@ router.post("/createCourse", upload, (req, res) => {
       totalTopics,
       fileOne: req.files.pdfFile1[0].filename,
       topicOne: req.body.topic1,
-      fileTwo: req.files.pdf2 ? req.files.pdfFile2[0].filename : null,
-      topicTwo: req.body.topic2 ? req.body.topic2 : null,
-      fileThree: req.files.pdf3 ? req.files.pdfFile3[0].filename : null,
-      topicThree: req.body.topic3 ? req.body.topic3 : null,
-      fileFour: req.files.pdf4 ? req.files.pdfFile4[0].filename : null,
-      topicFour: req.body.topic4 ? req.body.topic4 : null,
-      fileFive: req.files.pdfFile5 ? req.files.pdfFile5[0].filename : null,
-      topicFive: req.body.topic5 ? req.body.topic5 : null,
+      fileTwo:
+        req.files.pdfFile2 != undefined ? req.files.pdfFile2[0].filename : null,
+      topicTwo: req.body.topic2 != undefined ? req.body.topic2 : null,
+      fileThree:
+        req.files.pdfFile3 != undefined ? req.files.pdfFile3[0].filename : null,
+      topicThree: req.body.topic3 != undefined ? req.body.topic3 : null,
+      fileFour:
+        req.files.pdfFile4 != undefined ? req.files.pdfFile4[0].filename : null,
+      topicFour: req.body.topic4 != undefined ? req.body.topic4 : null,
+      fileFive:
+        req.files.pdfFile5 != undefined ? req.files.pdfFile5[0].filename : null,
+      topicFive: req.body.topic5 != undefined ? req.body.topic5 : null,
       description,
     });
     newCourse

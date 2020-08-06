@@ -34,7 +34,7 @@ const courseSchema = new mongoose.Schema({
   topicTwo: {
     type: String,
   },
-  fileThird: {
+  fileThree: {
     type: String,
     default: null,
   },

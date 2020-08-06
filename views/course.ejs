@@ -5,31 +5,52 @@
   <p><%= course.description %></p>
 </div>
 <div class="accordion" id="accordionExample">
-    <% for(i=1; i< = course.totalTopics; i++){ %>
-        <% const topic, pdfFile; %>
-        <% switch(i){%>
-            <%  case 1 : topic = course.topicOne;pdfFile = course.fileOne;break;%>
-            <%case 2 : topic = course.topicTwo;pdfFile = course.fileTwo;break;%>
-            <%case 3 : topic = course.topicThree;pdfFile = course.fileThree;break;%>
-            <%case 4 : topic = course.topicFour;pdfFile = course.fileFour;break;%>
-            <%case 5 : topic = course.topicFive;pdfFile = course.fileFive;break;%>
-            <%default :;%>
-            <%} %> 
-    <div class="card">
-      <div class="card-header" id="headingOne">
+    <% for(let i=1; i <= course.totalTopics; i++){ %>
+        <% let topic,pdfFile;%>
+        <% switch(i){
+             case 1 : topic = course.topicOne;pdfFile = course.fileOne;break;
+             case 2 : topic = course.topicTwo;pdfFile = course.fileTwo;break;
+             case 3 : topic = course.topicThree;pdfFile = course.fileThree;break;
+             case 4 : topic = course.topicFour;pdfFile = course.fileFour;break;
+             case 5 : topic = course.topicFive;pdfFile = course.fileFive;break;
+             default : pass;%>
+        <%} %> 
+    <%if(i==1){%>    
+        <div class="card">
+      <div class="card-header">
         <h2 class="mb-0">
-          <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target=<%=`#collapse${topic}` %> aria-expanded="true" aria-controls=<%=`#collapse${topic}` %>>
-            <%`TOPIC ${i} : ${topic}`%> 
+            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target=<%=`#${topic}`%> aria-expanded="true">
+            <%=`TOPIC ${i} : ${topic.toUpperCase()}`%> 
           </button>
         </h2>
       </div>  
-      <div id=<%=`#collapse${topic}`%> class="collapse show" data-parent="#accordionExample">
+      <div id=<%=`${topic}` %> class="collapse show" data-parent="#accordionExample">
         <div class="card-body">
-            <div id="adobe-dc-view" class=<%= `${pdfFile}` %> ></div>
+            <div id="adobe-dc-view" class=<%=`${pdfFile}`%> ></div>
         </div>
       </div>
     </div>
+    <% }else{%>
+        <div class="card">
+      <div class="card-header">
+        <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target=<%=`#${topic}`%> aria-expanded="false">
+            <%=`TOPIC ${i} : ${topic.toUpperCase()}`%> 
+          </button>
+        </h2>
+      </div>  
+      <div id=<%=`${topic}` %> class="collapse" data-parent="#accordionExample">
+        <div class="card-body">
+            <div id="adobe-dc-view" class=<%=`${pdfFile}`%> ></div>
+        </div>
+      </div>
+    </div>
+    <% }%>
     <% } %> 
   </div>
 <script type="text/javascript" src="https://documentcloud.adobe.com/view-sdk/main.js">
+</script>
+<script>
+    const loc, pdfFileName;
+    console.log(document.querySelector(".show"));
 </script>
