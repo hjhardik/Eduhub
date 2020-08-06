@@ -25,7 +25,7 @@ router.get("/dashboard", ensureAuthenticated, async (req, res) => {
   }
 });
 
-router.get("/course/:id", async (req, res) => {
+router.get("/course/:id", ensureAuthenticated, async (req, res) => {
   const requestedCourse = await Course.findOne({ _id: req.params.id });
   if (requestedCourse != null) {
     res.render("course", {
