@@ -1,6 +1,5 @@
-//DETAILS
-const TRACKING_ID = require("./../../config/keys").TRACKING_ID; // GOOGLE ANALYTICS TRACKING ID
-const CLIENT_ID = require("./../../config/keys").API_CLIENT_ID; //ADOBE EMBED API CLIENT ID
+const TRACKING_ID = "UA-171409849-1";
+const CLIENT_ID = "5236c1439e15412a9ce423f4a606d16a";
 
 // GOOGLE ANALYTICS
 (function (i, s, o, g, r, a, m) {
@@ -38,13 +37,13 @@ const viewerConfig = {
 };
 
 /// main view function
-function viewPdf(courseTopic, pdfFileLocation) {
+function viewPdf(id, courseTopic, pdfFileLocation) {
   document.addEventListener("adobe_dc_view_sdk.ready", function () {
     var adobeDCView = new AdobeDC.View({
       /* Pass your registered client id */
       clientId: CLIENT_ID,
       /* Pass the div id in which PDF should be rendered */
-      divId: "adobe-dc-view",
+      divId: `adobe-dc-view${id}`,
     });
     adobeDCView.previewFile(
       {
@@ -113,3 +112,15 @@ function viewPdf(courseTopic, pdfFileLocation) {
     );
   });
 }
+$(document).ready(() => {
+  for (let i = 1; i <= 5; i++) {
+    if (document.getElementById(`adobe-dc-view${i}`) != null) {
+      let ele = document.getElementById(`adobe-dc-view${i}`);
+      let pdfFile = ele.classList[0];
+      let topic = ele.parentElement.parentElement.id;
+      viewPdf(i, topic, pdfFile);
+    } else {
+      break;
+    }
+  }
+});
