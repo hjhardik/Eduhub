@@ -25,6 +25,17 @@ router.get("/dashboard", ensureAuthenticated, async (req, res) => {
   }
 });
 
+router.get("/course/:id", async (req, res) => {
+  const requestedCourse = await Course.findOne({ _id: req.params.id });
+  if (requestedCourse != null) {
+    res.render("course", {
+      course: requestedCourse,
+    });
+  } else {
+    res.render("error");
+  }
+});
+
 router.get("/createCourse", ensureAuthenticated, (req, res) => {
   if (req.user.role == "student") {
     req.flash("error_msg", "Only available for teachers.");

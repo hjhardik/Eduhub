@@ -15,7 +15,7 @@
         <h4 class="card-title"><%= teacherCourse.courseName %></h4>
         <p class="card-text"><%= teacherCourse.description %></p>
         <p class="card-text"><%= teacherCourse.totalTopics %></p>
-        <a href="#" class="card-link">Go to Course </a>
+        <a href=<%=`/course/${teacherCourse._id}`%>  class="card-link">Go to Course </a>
       </div>
     </div>
   </div>
