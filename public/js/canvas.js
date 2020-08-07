@@ -87,7 +87,7 @@ window.onload = function () {
   function downloadCanvas() {
     var img = myCanvas.toDataURL("image/png");
     document.getElementById("canvasImage").value = img;
-    document.getElementById("submit").click();
+    submitForm();
   }
   // Disable Page Move
   document.body.addEventListener(
@@ -99,14 +99,24 @@ window.onload = function () {
   );
 };
 
-$("#myForm").submit(function (e) {
-  e.preventDefault();
-  $.ajax({
-    url: "/canvas",
-    type: "post",
-    data: $("#myForm").serialize(),
-    success: function () {
-      console.log("sub");
-    },
-  });
-});
+// $("#myForm").submit(function (e) {
+//   e.preventDefault();
+//   $.ajax({
+//     url: "/canvas",
+//     type: "post",
+//     data: $("#myForm").serialize(),
+//     success: function () {
+//       console.log("sub");
+//     },
+//   });
+// });
+function submitForm() {
+  var http = new XMLHttpRequest();
+  http.open("POST", "/course", true);
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  var params = "search=" + document.getElementById("canvasImage"); // probably use document.getElementById(...).value
+  http.send(params);
+  http.onload = function () {
+    alert(http.responseText);
+  };
+}
