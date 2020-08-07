@@ -2,10 +2,24 @@ window.onload = function () {
   var myCanvas = document.getElementById("myCanvas");
   var ctx = myCanvas.getContext("2d");
 
-  // Fill Window Width and Height
-  myCanvas.width = window.innerWidth;
-  myCanvas.height = window.innerHeight;
+  myCanvas.style.width = "100%";
+  myCanvas.style.height = "200%";
 
+  // Fill Window Width and Height
+  myCanvas.width = myCanvas.offsetWidth;
+  myCanvas.height = myCanvas.offsetHeight;
+
+  //clear canvas
+  function clearCanvas() {
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+  }
+
+  document.getElementById("clear").addEventListener("click", (event) => {
+    event.preventDefault();
+    clearCanvas();
+  });
   // Set Background Color
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
@@ -67,6 +81,14 @@ window.onload = function () {
   myCanvas.addEventListener("touchend", draw.end, false);
   myCanvas.addEventListener("touchmove", draw.move, false);
 
+  document.getElementById("download").addEventListener("click", () => {
+    downloadCanvas();
+  });
+  function downloadCanvas() {
+    var img = myCanvas.toDataURL("image/png");
+    document.getElementById("canvasImage").value = img;
+    document.getElementById("submit").click();
+  }
   // Disable Page Move
   document.body.addEventListener(
     "touchmove",
@@ -76,3 +98,15 @@ window.onload = function () {
     false
   );
 };
+
+$("#myForm").submit(function (e) {
+  e.preventDefault();
+  $.ajax({
+    url: "/canvas",
+    type: "post",
+    data: $("#myForm").serialize(),
+    success: function () {
+      console.log("sub");
+    },
+  });
+});

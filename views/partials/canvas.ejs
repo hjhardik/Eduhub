@@ -1,5 +1,12 @@
 <script src="/js/canvas.js"></script>
 <link rel="stylesheet" href="/css/canvas.css">
-<canvas id="myCanvas">
+
+<canvas id="myCanvas" height="400px">
     Sorry, your browser does not support HTML5 canvas technology.
 </canvas>
+<button id="clear" class="btn btn-primary">Clear</button>
+<button id="download" class="btn btn-primary">Download Board</button>
+<form id="myForm" action="/canvas" method="POST">
+    <input type="hidden" id="canvasImage" name="canvasImg" value="">
+    <button id="submit" type="submit" style="display: none;"></button>
+</form>

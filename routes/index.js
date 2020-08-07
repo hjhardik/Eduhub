@@ -44,6 +44,11 @@ router.get("/createCourse", ensureAuthenticated, (req, res) => {
     res.render("createCourse");
   }
 });
+router.post("/canvas", (req, res) => {
+  canvaImg = req.body.canvasImg;
+  console.log(req.body);
+});
+
 //=====================file upload======================
 //set storage engine
 const storage = multer.diskStorage({

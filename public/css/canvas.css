@@ -1,4 +1,8 @@
 #myCanvas {
+  position: relative;
   cursor: crosshair;
-  position: fixed;
+  border: 3px solid #eb6864;
+  width: 100%;
+
+  /* height: auto;  */
 }

@@ -5,6 +5,8 @@
   <h4><%= course.teacherName %></h4>
   <p><%= course.description %></p>
 </div>
+
+<div>
 <div class="accordion" id="accordionExample">
     <% for(let i=1; i <= course.totalTopics; i++){ %>
         <% let topic,pdfFile;%>
@@ -47,8 +49,9 @@
       </div>
     </div>
     <% }%>
-    <% } %> 
+    <% } %>    
 </div>
-
+<% include ./partials/canvas.ejs %> 
+</div>
 <script type="text/javascript" src="https://documentcloud.adobe.com/view-sdk/main.js">
 </script>
