@@ -4,6 +4,7 @@ const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
 const Course = require("../models/Course");
 const path = require("path");
+const fs = require("fs");
 
 // Welcome Page
 router.get("/", forwardAuthenticated, (req, res) => res.render("welcome"));
@@ -46,7 +47,15 @@ router.get("/createCourse", ensureAuthenticated, (req, res) => {
 });
 router.post("/canvas", (req, res) => {
   canvaImg = req.body.canvasImg;
-  console.log(req.body);
+  var base64Data = canvaImg.replace(/^data:image\/png;base64,/, "");
+  fs.writeFile(
+    `./public/canvas/${req.user.name}.png`,
+    base64Data,
+    "base64",
+    function (err) {
+      console.log(err);
+    }
+  );
 });
 
 //=====================file upload======================
