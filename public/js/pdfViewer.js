@@ -94,6 +94,15 @@ function viewPdf(id, courseTopic, pdfFileLocation) {
               "download document"
             );
             break;
+          case "DOCUMENT_PRINT":
+            ga(
+              "send",
+              "event",
+              "DOCUMENT_PRINT",
+              event.data.fileName,
+              "print document"
+            );
+            break;
           case "TEXT_COPY":
             ga(
               "send",

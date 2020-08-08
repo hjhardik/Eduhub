@@ -221,5 +221,7 @@ router.post("/createCourse", upload, (req, res) => {
       .catch((err) => console.log(err));
   }
 });
-
+router.get("*", function (req, res) {
+  res.render("error");
+});
 module.exports = router;

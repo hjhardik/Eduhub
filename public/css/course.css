@@ -1,0 +1,21 @@
+.sharing a:hover {
+  cursor: pointer;
+}
+.sharing {
+  background: #ffffff;
+  display: inline-block;
+  font-size: larger;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 2px 8px;
+}
+.sharing a {
+  padding: 2px;
+}
+.sharing i {
+  margin-right: 5px;
+}
+
+.sharing span {
+  font-family: "Pacifico", cursive;
+}
