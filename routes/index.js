@@ -54,8 +54,19 @@ router.post("/course", async (req, res) => {
     "base64",
     function (err) {}
   );
-  require("./../toolsCode")(`${req.user.name}`);
-  //res.sendStatus(204);
+  var outputFile = await require("./../toolsCode")(`${req.user.name}`);
+  setTimeout(() => {
+    if (fs.existsSync(`./public/canvas/${outputFile}`)) {
+      res.download(`./public/canvas/${outputFile}`, function (err) {
+        if (err) {
+          console.log(err); // Check error if you want
+        }
+        fs.unlinkSync(`./public/canvas/${outputFile}`);
+      });
+    } else {
+      res.sendStatus(204);
+    }
+  }, 5000);
 });
 
 //=====================file upload======================

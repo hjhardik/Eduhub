@@ -1,7 +1,8 @@
 const PDFToolsSdk = require("@adobe/documentservices-pdftools-node-sdk");
 const fs = require("fs");
 
-module.exports = function (imageLoc) {
+module.exports = async function (imageLoc) {
+  var output;
   try {
     // Initial setup, create credentials instance.
     const credentials = PDFToolsSdk.Credentials.serviceAccountCredentialsBuilder()
@@ -19,10 +20,11 @@ module.exports = function (imageLoc) {
     createPdfOperation.setInput(input);
 
     // Execute the operation and Save the result to the specified location.
-    createPdfOperation
+    await createPdfOperation
       .execute(executionContext)
       .then((result) => {
         result.saveAsFile(`./public/canvas/${imageLoc}.pdf`);
+        output = `${imageLoc}.pdf`;
       })
       .then(() => {
         fs.unlinkSync(`./public/canvas/${imageLoc}.png`);
@@ -40,4 +42,5 @@ module.exports = function (imageLoc) {
   } catch (err) {
     console.log("Exception encountered while executing operation", err);
   }
+  return output;
 };

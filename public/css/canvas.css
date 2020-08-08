@@ -3,6 +3,14 @@
   cursor: crosshair;
   border: 3px solid #eb6864;
   width: 100%;
+}
 
-  /* height: auto;  */
+.whiteboard {
+  margin-bottom: 0;
+  font-family: "Pacifico", cursive;
+  background: black;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
