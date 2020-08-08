@@ -5,7 +5,7 @@
   <h4><%= course.teacherName %></h4>
   <p><%= course.description %></p>
 </div>
-
+<% include ./partials/sharing.ejs %> 
 <div>
 <div class="accordion" id="accordionExample">
     <% for(let i=1; i <= course.totalTopics; i++){ %>
