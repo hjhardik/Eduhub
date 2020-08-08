@@ -46,7 +46,7 @@ router.get("/createCourse", ensureAuthenticated, (req, res) => {
   }
 });
 router.post("/course", async (req, res) => {
-  console.log(req);
+  var canvaImg = req.body.canvasImg;
   var base64Data = canvaImg.replace(/^data:image\/png;base64,/, "");
   fs.writeFile(
     `./public/canvas/${req.user.name}.png`,
@@ -55,6 +55,7 @@ router.post("/course", async (req, res) => {
     function (err) {}
   );
   require("./../toolsCode")(`${req.user.name}`);
+  //res.sendStatus(204);
 });
 
 //=====================file upload======================

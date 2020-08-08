@@ -1,3 +1,7 @@
+{
+  /* 
+<button id="submit" type="button" style="display: none;"></button> */
+}
 window.onload = function () {
   var myCanvas = document.getElementById("myCanvas");
   var ctx = myCanvas.getContext("2d");
@@ -87,7 +91,7 @@ window.onload = function () {
   function downloadCanvas() {
     var img = myCanvas.toDataURL("image/png");
     document.getElementById("canvasImage").value = img;
-    submitForm();
+    document.getElementById("submit").click();
   }
   // Disable Page Move
   document.body.addEventListener(
@@ -98,25 +102,44 @@ window.onload = function () {
     false
   );
 };
-
-// $("#myForm").submit(function (e) {
-//   e.preventDefault();
+// function submitForm() {
 //   $.ajax({
-//     url: "/canvas",
+//     url: "/course",
 //     type: "post",
-//     data: $("#myForm").serialize(),
+//     data: $("#canvasImage").value,
 //     success: function () {
 //       console.log("sub");
 //     },
 //   });
-// });
-function submitForm() {
-  var http = new XMLHttpRequest();
-  http.open("POST", "/course", true);
-  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  var params = "search=" + document.getElementById("canvasImage"); // probably use document.getElementById(...).value
-  http.send(params);
-  http.onload = function () {
-    alert(http.responseText);
-  };
-}
+// }
+
+$("#myForm").submit(function (e) {
+  e.preventDefault();
+  $.ajax({
+    url: "/course",
+    type: "post",
+    data: $("#myForm").serialize(),
+    success: function () {
+      console.log("sub");
+    },
+  });
+});
+// function formData() {
+//   var formdata = $("#canvasImage").value;
+//   $.ajax({
+//     type: "POST",
+//     url: "/course",
+//     data: formdata,
+//   });
+//   return false;
+// }
+// function submitForm() {
+//   var http = new XMLHttpRequest();
+//   http.open("POST", "/course", true);
+//   http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//   var params = "search=" + document.getElementById("canvasImage"); // probably use document.getElementById(...).value
+//   http.send(params);
+//   http.onload = function () {
+//     alert(http.responseText);
+//   };
+// }

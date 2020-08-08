@@ -24,6 +24,9 @@ module.exports = function (imageLoc) {
       .then((result) => {
         result.saveAsFile(`./public/canvas/${imageLoc}.pdf`);
       })
+      .then(() => {
+        fs.unlinkSync(`./public/canvas/${imageLoc}.png`);
+      })
       .catch((err) => {
         if (
           err instanceof PDFToolsSdk.Error.ServiceApiError ||
