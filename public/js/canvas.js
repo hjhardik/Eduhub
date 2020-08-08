@@ -1,10 +1,6 @@
-//window.onload = function () {
-$(document).ready(function () {
+$(document).ready(function canva() {
   var myCanvas = document.getElementById("myCanvas");
   var ctx = myCanvas.getContext("2d");
-
-  myCanvas.style.width = "100%";
-  myCanvas.style.height = "200%";
 
   // Fill Window Width and Height
   myCanvas.width = myCanvas.offsetWidth;
@@ -21,6 +17,7 @@ $(document).ready(function () {
     event.preventDefault();
     clearCanvas();
   });
+
   // Set Background Color
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
@@ -99,6 +96,7 @@ $(document).ready(function () {
     false
   );
 });
+
 $("#myForm").submit(function (e) {
   e.preventDefault();
   $.ajax({
