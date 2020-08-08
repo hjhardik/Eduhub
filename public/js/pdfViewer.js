@@ -112,6 +112,33 @@ function viewPdf(id, courseTopic, pdfFileLocation) {
     );
   });
 }
+$(".social-share.facebook").on("click", function () {
+  ga(
+    "send",
+    "event",
+    "COURSE_SHARED",
+    document.querySelector(".coursename").innerText,
+    "shared on facebook"
+  );
+});
+$(".social-share.twitter").on("click", function () {
+  ga(
+    "send",
+    "event",
+    "COURSE_SHARED",
+    document.querySelector(".coursename").innerText,
+    "shared on twitter"
+  );
+});
+$(".social-share.email").on("click", function () {
+  ga(
+    "send",
+    "event",
+    "COURSE_SHARED",
+    document.querySelector(".coursename").innerText,
+    "shared on email"
+  );
+});
 $(document).ready(() => {
   for (let i = 1; i <= 5; i++) {
     if (document.getElementById(`adobe-dc-view${i}`) != null) {
