@@ -28,12 +28,15 @@ ga("send", "pageview");
 const viewerConfig = {
   defaultViewMode: "FIT_PAGE", //default mode fit_page
   embedMode: "SIZED_CONTAINER",
+  enableFormFilling: true,
   showPageControls: true, //controls
   showAnnotationTools: true, //annotation tools
   showDownloadPDF: true, //download option
   showPrintPDF: true, //print option
   showLeftHandPanel: false, //remove other options
   dockPageControls: true, //dock
+  enableAnnotationAPIs: true, //enable annotation apis
+  includePDFAnnotations: true,
 };
 
 /// main view function
