@@ -35,7 +35,7 @@
       </div>  
       <div id=<%=`${topic}` %> class="collapse show" data-parent="#accordionExample">
         <div class="card-body">
-            <div id="adobe-dc-view1" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName}_${pdfFile}`%>></div>
+            <div id="adobe-dc-view1" style="height: 520px;" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName}_${pdfFile}`%>></div>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
       </div>  
       <div id=<%=`${topic}` %> class="collapse" data-parent="#accordionExample">
         <div class="card-body">
-            <div id=<%=`adobe-dc-view${i}`%> class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName}_${pdfFile}`%>></div>
+            <div id=<%=`adobe-dc-view${i}`%> style="height: 520px;" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName}_${pdfFile}`%>></div>
         </div>
       </div>
     </div>
@@ -60,4 +60,8 @@
 <% include ./partials/canvas.ejs %> 
 </div>
 <script type="text/javascript" src="https://documentcloud.adobe.com/view-sdk/main.js">
+</script>
+<script>
+  var anno = <%- JSON.stringify(anno) %>;
+  sendData(anno);
 </script>

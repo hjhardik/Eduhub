@@ -41,19 +41,6 @@ const viewerConfig = {
   includePDFAnnotations: true /* Default value is false */,
 };
 
-let userName = document.querySelector(".userProfile .userName").innerText;
-let userEmail = document.querySelector(".userProfile .userEmail").innerText;
-let userRole = document.querySelector(".userProfile .userRole").innerText;
-if (userRole == "teacher") {
-  userName = "(TEACHER) " + userName;
-}
-const profile = {
-  userProfile: {
-    name: userName,
-    email: userEmail,
-  },
-};
-
 /// main view function
 function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
   document.addEventListener("adobe_dc_view_sdk.ready", function () {
@@ -83,6 +70,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
       viewerConfig
     );
 
+    //user profile name change UI config
     adobeDCView.registerCallback(
       AdobeDC.View.Enum.CallbackType.GET_USER_PROFILE_API,
       function () {
@@ -95,9 +83,33 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
       }
     );
 
-    previewFilePromise.then((adobeViewer) => {
-      adobeViewer.getAnnotationManager().then((annotationManager) => {
-        // All annotation APIs can be invoked here
+    //annotations apis manager
+    previewFilePromise.then(function (adobeViewer) {
+      adobeViewer.getAnnotationManager().then(function (annotationManager) {
+        /* API to add annotations */
+        annotationManager
+          .addAnnotations(annotations)
+          .then(function () {
+            console.log("Annotations added through API successfully");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        /* API to register events listener */
+        annotationManager.registerEventListener(
+          function (event) {
+            if ((event.type = "ANNOTATION_ADDED")) {
+              console.log(event);
+            }
+          },
+          {
+            /* Pass the list of events in listenOn. */
+            /* If no event is passed in listenOn, then all the annotation events will be received. */
+            listenOn: [
+              /* "ANNOTATION_ADDED", "ANNOTATION_CLICKED" */
+            ],
+          }
+        );
       });
     });
 
@@ -200,4 +212,19 @@ $(document).ready(() => {
       break;
     }
   }
+  let userName = document.querySelector(".userName").innerText;
+  let userEmail = document.querySelector(".userEmail").innerText;
+  let userRole = document.querySelector(".userRole").innerText;
+  if (userRole == "teacher") {
+    userName = "(TEACHER) " + userName;
+  }
+  const profile = {
+    userProfile: {
+      name: userName,
+      email: userEmail,
+    },
+  };
 });
+function sendData(e) {
+  console.log(e);
+}

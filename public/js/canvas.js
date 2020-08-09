@@ -91,7 +91,7 @@ $(document).ready(function canva() {
   document.body.addEventListener(
     "touchmove",
     function (evt) {
-      evt.preventDefault();
+      //evt.preventDefault();
     },
     false
   );
