@@ -31,6 +31,10 @@ router.get("/course/:id", ensureAuthenticated, async (req, res) => {
   if (requestedCourse != null) {
     res.render("course", {
       course: requestedCourse,
+      userName: req.user.name,
+      userRole: req.user.role,
+      userEmail: req.user.email,
+      anno: ["abcd"],
     });
   } else {
     res.render("error");

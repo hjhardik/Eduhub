@@ -27,7 +27,7 @@ ga("send", "pageview");
 //==========================================================
 const viewerConfig = {
   defaultViewMode: "FIT_PAGE", //default mode fit_page
-  embedMode: "SIZED_CONTAINER",
+  embedMode: "FULL_WINDOW",
   enableFormFilling: true,
   showPageControls: true, //controls
   showAnnotationTools: true, //annotation tools
@@ -35,12 +35,27 @@ const viewerConfig = {
   showPrintPDF: true, //print option
   showLeftHandPanel: false, //remove other options
   dockPageControls: true, //dock
-  enableAnnotationAPIs: true, //enable annotation apis
-  includePDFAnnotations: true,
+  /* Enable commenting APIs */
+  enableAnnotationAPIs: true /* Default value is false */,
+  /* Include existing PDF annotations and save new annotations to PDF buffer */
+  includePDFAnnotations: true /* Default value is false */,
+};
+
+let userName = document.querySelector(".userProfile .userName").innerText;
+let userEmail = document.querySelector(".userProfile .userEmail").innerText;
+let userRole = document.querySelector(".userProfile .userRole").innerText;
+if (userRole == "teacher") {
+  userName = "(TEACHER) " + userName;
+}
+const profile = {
+  userProfile: {
+    name: userName,
+    email: userEmail,
+  },
 };
 
 /// main view function
-function viewPdf(id, courseTopic, pdfFileLocation) {
+function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
   document.addEventListener("adobe_dc_view_sdk.ready", function () {
     var adobeDCView = new AdobeDC.View({
       /* Pass your registered client id */
@@ -48,11 +63,11 @@ function viewPdf(id, courseTopic, pdfFileLocation) {
       /* Pass the div id in which PDF should be rendered */
       divId: `adobe-dc-view${id}`,
     });
-    adobeDCView.previewFile(
+    var previewFilePromise = adobeDCView.previewFile(
       {
         /* Pass information on how to access the file */
         content: {
-          //enter the Location of PDF which needs to be displayed
+          //Location of PDF
           location: {
             url: `./../uploads/${pdfFileLocation}`,
           },
@@ -61,11 +76,32 @@ function viewPdf(id, courseTopic, pdfFileLocation) {
         metaData: {
           /* file name */
           fileName: `${courseTopic}`,
+          /* file ID */
+          id: fileId,
         },
       },
       viewerConfig
     );
 
+    adobeDCView.registerCallback(
+      AdobeDC.View.Enum.CallbackType.GET_USER_PROFILE_API,
+      function () {
+        return new Promise((resolve, reject) => {
+          resolve({
+            code: AdobeDC.View.Enum.ApiResponseCode.SUCCESS,
+            data: profile,
+          });
+        });
+      }
+    );
+
+    previewFilePromise.then((adobeViewer) => {
+      adobeViewer.getAnnotationManager().then((annotationManager) => {
+        // All annotation APIs can be invoked here
+      });
+    });
+
+    //pdf analytics code
     adobeDCView.registerCallback(
       AdobeDC.View.Enum.CallbackType.EVENT_LISTENER,
       function (event) {
@@ -124,6 +160,7 @@ function viewPdf(id, courseTopic, pdfFileLocation) {
     );
   });
 }
+
 $(".social-share.facebook").on("click", function () {
   ga(
     "send",
@@ -156,8 +193,9 @@ $(document).ready(() => {
     if (document.getElementById(`adobe-dc-view${i}`) != null) {
       let ele = document.getElementById(`adobe-dc-view${i}`);
       let pdfFile = ele.classList[0];
+      let fileId = ele.getAttribute("fileId");
       let topic = ele.parentElement.parentElement.id;
-      viewPdf(i, topic, pdfFile);
+      viewPdf(i, topic, pdfFile, fileId);
     } else {
       break;
     }

@@ -5,6 +5,11 @@
   <h4><%= course.subjectName %></h4>
   <h4><%= course.teacherName %></h4>
   <p><%= course.description %></p>
+  <div class="userProfile" style="display: none;">
+    <p class="userName"><%= userName%></p>
+    <p class="userRole"><%= userRole%></p>
+    <p class="userEmail"><%= userEmail%></p>
+  </div>
 </div>
 <% include ./partials/sharing.ejs %> 
 <div>
@@ -30,7 +35,7 @@
       </div>  
       <div id=<%=`${topic}` %> class="collapse show" data-parent="#accordionExample">
         <div class="card-body">
-            <div id="adobe-dc-view1" class=<%=`${pdfFile}`%> ></div>
+            <div id="adobe-dc-view1" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName}_${pdfFile}`%>></div>
         </div>
       </div>
     </div>
@@ -45,7 +50,7 @@
       </div>  
       <div id=<%=`${topic}` %> class="collapse" data-parent="#accordionExample">
         <div class="card-body">
-            <div id=<%=`adobe-dc-view${i}`%> class=<%=`${pdfFile}`%> ></div>
+            <div id=<%=`adobe-dc-view${i}`%> class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName}_${pdfFile}`%>></div>
         </div>
       </div>
     </div>
