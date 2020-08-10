@@ -41,6 +41,10 @@ const viewerConfig = {
   includePDFAnnotations: true /* Default value is false */,
 };
 
+function sendData(e) {
+  console.log(e);
+}
+
 /// main view function
 function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
   document.addEventListener("adobe_dc_view_sdk.ready", function () {
@@ -98,16 +102,49 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
         /* API to register events listener */
         annotationManager.registerEventListener(
           function (event) {
-            if ((event.type = "ANNOTATION_ADDED")) {
-              console.log(event);
+            switch (event.type) {
+              case "ANNOTATION_ADDED":
+                async () => {
+                  await fetch("course/annotations/add", {
+                    method: "POST",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ data: event.data, fileId: fileId }),
+                  });
+                };
+                break;
+              case "ANNOTATION_UPDATED":
+                async () => {
+                  await fetch("course/annotations/update", {
+                    method: "POST",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ data: event.data, fileId: fileId }),
+                  });
+                };
+                break;
+              case "ANNOTATION_DELETED":
+                async () => {
+                  await fetch("course/annotations/delete", {
+                    method: "POST",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ data: event.data, fileId: fileId }),
+                  });
+                };
+                break;
             }
           },
           {
             /* Pass the list of events in listenOn. */
             /* If no event is passed in listenOn, then all the annotation events will be received. */
-            listenOn: [
-              /* "ANNOTATION_ADDED", "ANNOTATION_CLICKED" */
-            ],
+            listenOn: [],
           }
         );
       });
@@ -225,6 +262,3 @@ $(document).ready(() => {
     },
   };
 });
-function sendData(e) {
-  console.log(e);
-}

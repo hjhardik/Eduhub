@@ -2,9 +2,11 @@ const express = require("express");
 const multer = require("multer");
 const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
-const Course = require("../models/Course");
 const path = require("path");
 const fs = require("fs");
+
+const Course = require("../models/Course");
+const Annotation = require("../models/Annotation");
 
 // Welcome Page
 router.get("/", forwardAuthenticated, (req, res) => res.render("welcome"));
@@ -39,6 +41,49 @@ router.get("/course/:id", ensureAuthenticated, async (req, res) => {
   } else {
     res.render("error");
   }
+});
+
+router.post("/course/annotations/add", (req, res) => {
+  let data = req.json.data;
+  let fileName = req.json.fileId;
+  let id = data.id;
+
+  Annotation.findOne({ id: id, fileId: fileName }).then((anno) => {
+    if (!anno) {
+      const ano = new Annotation({
+        id: id,
+        fileId: fileName,
+        data: data,
+      });
+    }
+  });
+});
+router.post("/course/annotations/update", (req, res) => {
+  let data = req.json.data;
+  let fileName = req.json.fileId;
+  let id = data.id;
+
+  Annotation.findOneAndUpdate(
+    { id: id, fileId: fileName },
+    { "data.bodyValue": data.bodyValue },
+    (err) => {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+});
+
+router.post("/course/annotations/delete", (req, res) => {
+  let data = req.json.data;
+  let fileName = req.json.fileId;
+  let id = data.id;
+
+  Annotation.deleteOne({ id: id, fileId: fileName }, (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
 });
 
 router.get("/createCourse", ensureAuthenticated, (req, res) => {
