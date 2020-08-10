@@ -41,10 +41,6 @@ const viewerConfig = {
   includePDFAnnotations: true /* Default value is false */,
 };
 
-function sendData(e) {
-  console.log(e);
-}
-
 /// main view function
 function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
   document.addEventListener("adobe_dc_view_sdk.ready", function () {
@@ -93,12 +89,8 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
         /* API to add annotations */
         annotationManager
           .addAnnotations(annotations)
-          .then(function () {
-            console.log("Annotations added through API successfully");
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+          .then(function () {})
+          .catch(function (error) {});
         /* API to register events listener */
         annotationManager.registerEventListener(
           function (event) {

@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 const passport = require("passport");
@@ -15,7 +16,11 @@ const db = require("./config/keys").mongoURI;
 
 // Connect to MongoDB
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
@@ -25,8 +30,12 @@ app.set("view engine", "ejs");
 
 app.use(express.static("./public"));
 
-// Express body parser
-app.use(express.urlencoded({ extended: true }));
+// body parser
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 // Express session
 app.use(

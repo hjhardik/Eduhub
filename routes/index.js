@@ -36,31 +36,47 @@ router.get("/course/:id", ensureAuthenticated, async (req, res) => {
       userName: req.user.name,
       userRole: req.user.role,
       userEmail: req.user.email,
-      anno: ["abcd"],
     });
   } else {
     res.render("error");
   }
 });
 
-router.post("/course/annotations/add", (req, res) => {
-  let data = req.json.data;
-  let fileName = req.json.fileId;
+router.post("/course/annotations/find", async (req, res) => {
+  let reqFile = req.body.fileId;
+  await Annotation.find({ fileId: reqFile })
+    .select({ _id: 0, data: 1 })
+    .exec((err, annos) => {
+      if (!err) {
+        res.send(annos);
+      } else {
+        console.log(err);
+      }
+    });
+});
+
+router.post("/course/annotations/add", async (req, res) => {
+  let data = req.body.data;
+  let fileName = req.body.fileId;
   let id = data.id;
 
-  Annotation.findOne({ id: id, fileId: fileName }).then((anno) => {
+  console.log(data, fileName, id);
+  await Annotation.findOne({ id: id, fileId: fileName }).then((anno) => {
     if (!anno) {
       const ano = new Annotation({
         id: id,
         fileId: fileName,
         data: data,
       });
+      ano.save();
     }
   });
+  res.sendStatus(200);
 });
+
 router.post("/course/annotations/update", (req, res) => {
-  let data = req.json.data;
-  let fileName = req.json.fileId;
+  let data = req.body.data;
+  let fileName = req.body.fileId;
   let id = data.id;
 
   Annotation.findOneAndUpdate(
@@ -72,18 +88,20 @@ router.post("/course/annotations/update", (req, res) => {
       }
     }
   );
+  res.sendStatus(200);
 });
 
-router.post("/course/annotations/delete", (req, res) => {
-  let data = req.json.data;
-  let fileName = req.json.fileId;
+router.post("/course/annotations/delete", async (req, res) => {
+  let data = req.body.data;
+  let fileName = req.body.fileId;
   let id = data.id;
 
-  Annotation.deleteOne({ id: id, fileId: fileName }, (err) => {
+  await Annotation.deleteOne({ id: id, fileId: fileName }, (err) => {
     if (err) {
       console.log(err);
     }
   });
+  res.sendStatus(200);
 });
 
 router.get("/createCourse", ensureAuthenticated, (req, res) => {
