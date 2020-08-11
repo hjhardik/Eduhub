@@ -3,6 +3,15 @@
   margin: 0;
 }
 
+.navbar-title {
+  line-height: 50px;
+  color: #ffffff !important;
+  font-family: "Pacifico", cursive;
+  font-weight: lighter;
+}
+.navbar-title i {
+  margin-right: 5px;
+}
 li {
   list-style-type: none;
 }

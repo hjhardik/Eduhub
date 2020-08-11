@@ -5,6 +5,7 @@ const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
 const path = require("path");
 const fs = require("fs");
 
+//models
 const Course = require("../models/Course");
 const Annotation = require("../models/Annotation");
 
