@@ -1,3 +1,28 @@
+.course-details {
+  display: block;
+}
+.course-name {
+  padding: 3px 9px;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin-top: 10px;
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/batthern.png");
+}
+.course-details p {
+  margin-bottom: 0;
+}
+.back {
+  margin-top: 3px;
+}
+.back:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.sharing-div {
+  text-align: right;
+  padding-bottom: 7px;
+}
 .sharing a:hover {
   cursor: pointer;
 }
@@ -18,4 +43,15 @@
 
 .sharing span {
   font-family: "Pacifico", cursive;
+}
+
+@media screen and (max-width: 600px) {
+  .back {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .sharing-div {
+    margin-top: 9px;
+    margin-bottom: 12px;
+  }
 }

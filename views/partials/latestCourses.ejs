@@ -29,26 +29,29 @@
         data-ride="carousel"
       >
         <div class="carousel-inner">
-          <div class="carousel-item active">
+          <% latestCourses.forEach((latest,index)=>{ %>
+          <% if(index==0){ %> 
+            <div class="carousel-item active">
             <div class="row">
               <div
                 class="col-12 col-md d-flex align-items-center justify-content-center"
               >
                 <div class="card text-black border-primary">
                   <div class="card-header">
-                    Course Lorem ipsum dolor sit amet consectetur adipisicing
-                    elit. Quas, commodi.
+                    Latest Course in the field of <%= latest.subjectName.toUpperCase() %>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title">Course One</h4>
-                    <p class="card-text">Course Description</p>
-                    <p class="card-text">Total Topics</p>
-                    <a href="#" class="card-link">Go to Course</a>
+                    <h4 class="card-title"><%= latest.courseName.toUpperCase() %></h4>
+                    <p class="card-text">Teacher : <%= latest.teacherName %></p>
+                    <p class="card-text" style="font-style: italic;"><%= latest.description %></p>
+                    <p class="card-text">Total Topics : <%= latest.totalTopics %></p>
+                    <a href=<%=`/course/${latest._id}`%> class="card-link" style="font-weight:bold;">Go to Course</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        <% }else{ %>
           <div class="carousel-item">
             <div class="row">
               <div
@@ -56,19 +59,21 @@
               >
                 <div class="card text-black border-primary">
                   <div class="card-header">
-                    Course Lorem ipsum dolor sit amet consectetur adipisicing
-                    elit. Quas, commodi.
+                    Latest Course in the field of <%= latest.subjectName.toUpperCase() %>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title">Course One</h4>
-                    <p class="card-text">Course Description</p>
-                    <p class="card-text">Total Topics</p>
-                    <a href="#" class="card-link">Go to Course</a>
+                    <h4 class="card-title"><%= latest.courseName.toUpperCase() %></h4>
+                    <p class="card-text">Teacher : <%= latest.teacherName %></p>
+                    <p class="card-text" style="font-style: italic;"><%= latest.description %></p>
+                    <p class="card-text">Total Topics : <%= latest.totalTopics %></p>
+                    <a href=<%=`/course/${latest._id}`%> class="card-link" style="font-weight:bold;">Go to Course</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        <% }; %>
+          <% }); %>
         </div>
       </div>
       <!--End carousel-->

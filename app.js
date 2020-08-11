@@ -64,6 +64,10 @@ app.use(function (req, res, next) {
 // Routes
 app.use("/", require("./routes/index.js"));
 app.use("/users", require("./routes/users.js"));
+app.use(function (req, res) {
+  res.status(404);
+  res.render("error");
+});
 
 const PORT = process.env.PORT || 5000;
 

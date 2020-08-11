@@ -1,17 +1,20 @@
 <script src="/js/pdfViewer.js"></script>
 <link rel="stylesheet" href="/css/course.css">
-<div>
-  <h1 class="coursename"><%= course.courseName %></h1>
-  <h4><%= course.subjectName %></h4>
-  <h4><%= course.teacherName %></h4>
-  <p><%= course.description %></p>
+<div class="course-details">
+  <h1 class="course-name"><%= course.courseName %></h1>
+  <h4>Subject : <%= course.subjectName %></h4>
+  <h4>Teacher : <%= course.teacherName.toUpperCase() %></h4>
+  <p style="font-style: italic; font-weight: bolder; color: indigo;"><%= course.description %></p>
   <div class="userProfile" style="display: none;">
     <p class="userName"><%= userName%></p>
     <p class="userRole"><%= userRole%></p>
     <p class="userEmail"><%= userEmail%></p>
   </div>
 </div>
+<a class="back" onclick="window.history.back();"><i class="fas fa-arrow-circle-left"></i> Back</a>
+<div class="sharing-div">
 <% include ./partials/sharing.ejs %> 
+</div>
 <div>
 <div class="accordion" id="accordionExample">
     <% for(let i=1; i <= course.totalTopics; i++){ %>
@@ -61,6 +64,4 @@
 </div>
 <script type="text/javascript" src="https://documentcloud.adobe.com/view-sdk/main.js">
 </script>
-<script>
-  var anno = <%- JSON.stringify(anno) %>;
-</script>
+

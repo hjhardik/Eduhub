@@ -13,9 +13,15 @@ router.get("/", forwardAuthenticated, (req, res) => res.render("welcome"));
 
 // Dashboard
 router.get("/dashboard", ensureAuthenticated, async (req, res) => {
+  let latestCourses = await Course.find({}).sort({ date: -1 }).limit(3);
+
+  let allCourses = await Course.find({}).sort({ date: -1 });
+
   if (req.user.role == "student") {
     res.render("dashboard", {
       user: req.user,
+      latestCourses,
+      allCourses,
     });
   } else {
     const teacherCourses = await Course.find({
@@ -24,6 +30,8 @@ router.get("/dashboard", ensureAuthenticated, async (req, res) => {
     res.render("teacherDashboard", {
       user: req.user,
       teacherCourses: teacherCourses,
+      latestCourses,
+      allCourses,
     });
   }
 });
@@ -44,34 +52,40 @@ router.get("/course/:id", ensureAuthenticated, async (req, res) => {
 
 router.post("/course/annotations/find", async (req, res) => {
   let reqFile = req.body.fileId;
-  await Annotation.find({ fileId: reqFile })
-    .select({ _id: 0, data: 1 })
-    .exec((err, annos) => {
-      if (!err) {
-        res.send(annos);
-      } else {
-        console.log(err);
-      }
-    });
+  if (reqFile == "") {
+    res.sendStatus(200);
+  } else {
+    await Annotation.find({ fileId: reqFile })
+      .select({ _id: 0, data: 1 })
+      .exec((err, annos) => {
+        if (!err) {
+          res.send(annos);
+        } else {
+          console.log(err);
+        }
+      });
+  }
 });
 
 router.post("/course/annotations/add", async (req, res) => {
   let data = req.body.data;
   let fileName = req.body.fileId;
-  let id = data.id;
-
-  console.log(data, fileName, id);
-  await Annotation.findOne({ id: id, fileId: fileName }).then((anno) => {
-    if (!anno) {
-      const ano = new Annotation({
-        id: id,
-        fileId: fileName,
-        data: data,
-      });
-      ano.save();
-    }
-  });
-  res.sendStatus(200);
+  if (data == "" || fileName == "" || data == undefined) {
+    res.sendStatus(200);
+  } else {
+    let id = data.id;
+    await Annotation.findOne({ id: id, fileId: fileName }).then((anno) => {
+      if (!anno) {
+        const ano = new Annotation({
+          id: id,
+          fileId: fileName,
+          data: data,
+        });
+        ano.save();
+      }
+    });
+    res.sendStatus(200);
+  }
 });
 
 router.post("/course/annotations/update", (req, res) => {
@@ -121,6 +135,9 @@ router.post("/course", async (req, res) => {
     "base64",
     function (err) {}
   );
+  if (fs.existsSync(`./public/canvas/${req.user.name}.pdf`)) {
+    fs.unlinkSync(`./public/canvas/${req.user.name}.pdf`);
+  }
   var outputFile = await require("./../toolsCode")(`${req.user.name}`);
   setTimeout(() => {
     if (fs.existsSync(`./public/canvas/${outputFile}`)) {
@@ -128,6 +145,7 @@ router.post("/course", async (req, res) => {
         if (err) {
           console.log(err); // Check error if you want
         }
+        // delete the created PDF from the server as the user has downloaded it successfully
         fs.unlinkSync(`./public/canvas/${outputFile}`);
       });
     } else {

@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/css/latestCourses.css" />
 <div class="row mb-2">
   <div class="col text-center">
-    <h4>Your Courses</h4>
+    <h4>Courses created by you</h4>
   </div>
 </div>
 <div class="row">
@@ -9,13 +9,13 @@
   <div class="col-sm-12 col-md-4 col-lg-3">
     <div class="card text-white bg-info">
       <div class="card-header">
-        <%= teacherCourse.subjectName %>
+        <%= teacherCourse.subjectName.toUpperCase() %>
       </div>
       <div class="card-body">
-        <h4 class="card-title"><%= teacherCourse.courseName %></h4>
-        <p class="card-text"><%= teacherCourse.description %></p>
-        <p class="card-text"><%= teacherCourse.totalTopics %></p>
-        <a href=<%=`/course/${teacherCourse._id}`%>  class="card-link">Go to Course </a>
+        <h4 class="card-title"><%= teacherCourse.courseName.toUpperCase() %></h4>
+        <p class="card-text" style="font-style: italic;"><%= teacherCourse.description %></p>
+        <p class="card-text">Total Topics : <%= teacherCourse.totalTopics %></p>
+        <a href=<%=`/course/${teacherCourse._id}`%>  class="card-link" style="color:#ffd300; font-weight:bold;">Go to Course </a>
       </div>
     </div>
   </div>

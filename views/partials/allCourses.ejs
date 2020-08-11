@@ -5,74 +5,20 @@
   </div>
 </div>
 <div class="row">
+  <% allCourses.forEach((course)=>{ %>
   <div class="col-sm-12 col-md-4 col-lg-3">
     <div class="card text-white bg-primary">
       <div class="card-header">
-        Course Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas,
-        commodi.
+        <%= course.subjectName.toUpperCase() %>
       </div>
       <div class="card-body">
-        <h4 class="card-title">Course One</h4>
-        <p class="card-text">Course Description</p>
-        <p class="card-text">Total Topics</p>
-        <a href="#" class="card-link">Go to Course</a>
+        <h4 class="card-title"><%= course.courseName.toUpperCase() %></h4>
+        <p class="card-text">Teacher : <%= course.teacherName %></p>
+        <p class="card-text" style="font-style: italic;"><%= course.description %></p>
+        <p class="card-text">Total Topics : <%= course.totalTopics %></p>
+        <a href=<%=`/course/${course._id}`%> class="card-link allCourses">Go to Course</a>
       </div>
     </div>
   </div>
-  <div class="col-sm-12 col-md-4 col-lg-3">
-    <div class="card text-white bg-primary">
-      <div class="card-header">
-        Course Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas,
-        commodi.
-      </div>
-      <div class="card-body">
-        <h4 class="card-title">Course One</h4>
-        <p class="card-text">Course Description</p>
-        <p class="card-text">Total Topics</p>
-        <a href="#" class="card-link">Go to Course</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-12 col-md-4 col-lg-3">
-    <div class="card text-white bg-primary">
-      <div class="card-header">
-        Course Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas,
-        commodi.
-      </div>
-      <div class="card-body">
-        <h4 class="card-title">Course One</h4>
-        <p class="card-text">Course Description</p>
-        <p class="card-text">Total Topics</p>
-        <a href="#" class="card-link">Go to Course</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-12 col-md-4 col-lg-3">
-    <div class="card text-white bg-primary">
-      <div class="card-header">
-        Course Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas,
-        commodi.
-      </div>
-      <div class="card-body">
-        <h4 class="card-title">Course One</h4>
-        <p class="card-text">Course Description</p>
-        <p class="card-text">Total Topics</p>
-        <a href="#" class="card-link">Go to Course</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-12 col-md-4 col-lg-3">
-    <div class="card text-white bg-primary">
-      <div class="card-header">
-        Course Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas,
-        commodi.
-      </div>
-      <div class="card-body">
-        <h4 class="card-title">Course One</h4>
-        <p class="card-text">Course Description</p>
-        <p class="card-text">Total Topics</p>
-        <a href="#" class="card-link">Go to Course</a>
-      </div>
-    </div>
-  </div>
+  <% }); %>
 </div>
