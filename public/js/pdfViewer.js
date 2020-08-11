@@ -41,6 +41,12 @@ const viewerConfig = {
   includePDFAnnotations: true /* Default value is false */,
 };
 
+// custom flags for UI configurations
+const customFlags = {
+  downloadWithAnnotations: true /* Default value is false */,
+  printWithAnnotations: true /* Default value is false */,
+};
+
 /// main view function
 function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
   document.addEventListener("adobe_dc_view_sdk.ready", function () {
@@ -70,7 +76,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
       viewerConfig
     );
 
-    //user profile name change UI config
+    //user profile name UI config
     adobeDCView.registerCallback(
       AdobeDC.View.Enum.CallbackType.GET_USER_PROFILE_API,
       function () {
@@ -86,18 +92,51 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
     //annotations apis manager
     previewFilePromise.then(function (adobeViewer) {
       adobeViewer.getAnnotationManager().then(function (annotationManager) {
-        /* API to add annotations */
+        //set UI configurations
         annotationManager
-          .addAnnotations(annotations)
+          .setConfig(customFlags)
           .then(function () {})
           .catch(function (error) {});
+
+        //array to store annotations
+        var oldAnnos = [];
+        //updating annotations
+        setInterval(async () => {
+          await fetch("/course/annotations/add", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ fileId: fileId }),
+          }).then((res) => {
+            let updatedAnnos = [];
+            res.forEach((r) => {
+              updatedAnnos.push(r.data);
+            });
+
+            if (JSON.stringify(updatedAnnos) !== JSON.stringify(oldAnnos)) {
+              let result = updatedAnnos.filter((ol) => {
+                return !oldAnnos.some((o2) => {
+                  return ol.id === o2.id;
+                });
+              });
+              annotationManager
+                .addAnnotations(result)
+                .then(function () {})
+                .catch(function (error) {});
+              oldAnnos = oldAnnos.concat(result);
+            }
+          });
+        }, 2000);
+
         /* API to register events listener */
         annotationManager.registerEventListener(
           function (event) {
             switch (event.type) {
               case "ANNOTATION_ADDED":
-                async () => {
-                  await fetch("course/annotations/add", {
+                (async () => {
+                  await fetch("/course/annotations/add", {
                     method: "POST",
                     headers: {
                       Accept: "application/json",
@@ -105,11 +144,11 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                     },
                     body: JSON.stringify({ data: event.data, fileId: fileId }),
                   });
-                };
+                })();
                 break;
               case "ANNOTATION_UPDATED":
-                async () => {
-                  await fetch("course/annotations/update", {
+                (async () => {
+                  await fetch("/course/annotations/update", {
                     method: "POST",
                     headers: {
                       Accept: "application/json",
@@ -117,11 +156,11 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                     },
                     body: JSON.stringify({ data: event.data, fileId: fileId }),
                   });
-                };
+                })();
                 break;
               case "ANNOTATION_DELETED":
-                async () => {
-                  await fetch("course/annotations/delete", {
+                (async () => {
+                  await fetch("/course/annotations/delete", {
                     method: "POST",
                     headers: {
                       Accept: "application/json",
@@ -129,7 +168,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                     },
                     body: JSON.stringify({ data: event.data, fileId: fileId }),
                   });
-                };
+                })();
                 break;
             }
           },
