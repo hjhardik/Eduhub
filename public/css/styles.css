@@ -2,12 +2,19 @@
   padding: 0;
   margin: 0;
 }
-
+.main-body {
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/climpek.png");
+}
 .navbar-title {
   line-height: 50px;
   color: #ffffff !important;
   font-family: "Pacifico", cursive;
   font-weight: lighter;
+}
+.navbar-div {
+  height: 50px;
+  background: #191919;
 }
 .navbar-title i {
   margin-right: 5px;
@@ -17,10 +24,6 @@ li {
 }
 .fileButton {
   margin-bottom: 4px;
-}
-.main-body {
-  background-color: #ffffff;
-  background-image: url("https://www.transparenttextures.com/patterns/climpek.png");
 }
 .topicBox {
   display: block;
