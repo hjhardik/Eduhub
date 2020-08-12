@@ -110,26 +110,29 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ fileId: fileId }),
-          }).then((res) => {
-            console.log(res.body);
-            let updatedAnnos = [];
-            res.forEach((r) => {
-              updatedAnnos.push(r.data);
-            });
-
-            if (JSON.stringify(updatedAnnos) !== JSON.stringify(oldAnnos)) {
-              let result = updatedAnnos.filter((ol) => {
-                return !oldAnnos.some((o2) => {
-                  return ol.id === o2.id;
-                });
+          })
+            .then((response) => {
+              return response.json;
+            })
+            .then((res) => {
+              let updatedAnnos = [];
+              res.forEach((r) => {
+                updatedAnnos.push(r.data);
               });
-              annotationManager
-                .addAnnotations(result)
-                .then(function () {})
-                .catch(function (error) {});
-              oldAnnos = oldAnnos.concat(result);
-            }
-          });
+
+              if (JSON.stringify(updatedAnnos) !== JSON.stringify(oldAnnos)) {
+                let result = updatedAnnos.filter((ol) => {
+                  return !oldAnnos.some((o2) => {
+                    return ol.id === o2.id;
+                  });
+                });
+                annotationManager
+                  .addAnnotations(result)
+                  .then(function () {})
+                  .catch(function (error) {});
+                oldAnnos = oldAnnos.concat(result);
+              }
+            });
         }, 2000);
 
         /* API to register events listener */
