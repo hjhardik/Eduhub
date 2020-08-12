@@ -263,6 +263,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
 }
 
 $(".social-share.facebook").on("click", function () {
+  console.log("facebook");
   ga(
     "send",
     "event",
@@ -272,6 +273,7 @@ $(".social-share.facebook").on("click", function () {
   );
 });
 $(".social-share.twitter").on("click", function () {
+  console.log("twitter");
   ga(
     "send",
     "event",
@@ -281,6 +283,7 @@ $(".social-share.twitter").on("click", function () {
   );
 });
 $(".social-share.email").on("click", function () {
+  console.log("gmail");
   ga(
     "send",
     "event",
