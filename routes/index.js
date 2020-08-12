@@ -153,7 +153,7 @@ router.post("/course", async (req, res) => {
         );
       });
     } else {
-      res.sendStatus(204);
+      res.Status(404).send(`./public/canvas/${outputFile}`);
     }
   }, 3000);
 });

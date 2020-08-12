@@ -139,7 +139,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
           function (event) {
             switch (event.type) {
               case "ANNOTATION_ADDED":
-                if (event.data.bodyValue !== "") {
+                if (event.data.bodyValue !== "" || event.data !== undefined) {
                   if (
                     JSON.stringify(event.data.target.selector.boundingBox) ==
                     JSON.stringify([
@@ -151,6 +151,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                   ) {
                     event.data.target.selector.boundingBox = [0, 0, 0, 0];
                   }
+
                   (async () => {
                     await fetch("/course/annotations/add", {
                       method: "POST",
