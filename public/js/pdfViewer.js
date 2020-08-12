@@ -112,7 +112,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
             body: JSON.stringify({ fileId: fileId }),
           })
             .then((response) => {
-              return response.json;
+              return response.json();
             })
             .then((res) => {
               console.log(res);
