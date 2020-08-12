@@ -222,7 +222,13 @@ router.post("/createCourse", upload, (req, res) => {
   if (!courseName || !subjectName || !parseInt(totalTopics) || !description) {
     errors.push({ msg: "Please enter all fields" });
   }
-
+  if (
+    courseName.length >= 49 ||
+    subjectName.length >= 49 ||
+    description.length >= 130
+  ) {
+    errors.push({ msg: "Please enter brief values for fields." });
+  }
   try {
     if (
       req.body.topic1 == "" ||

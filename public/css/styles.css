@@ -186,38 +186,31 @@ li {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   padding-bottom: 30px;
 }
-
 .footer .copy-right_text .copy_right {
   font-size: 16px;
   color: #919191;
   margin-bottom: 0;
   font-weight: 400;
 }
-
 @media (max-width: 767px) {
   .footer .copy-right_text .copy_right {
     font-size: 14px;
   }
 }
-
 .footer .copy-right_text .copy_right a {
   color: #fdae5c;
 }
-
 .footer .social_links {
   margin-top: 47px;
 }
-
 @media (max-width: 767px) {
   .footer .social_links {
     margin-top: 30px;
   }
 }
-
 .footer .social_links ul li {
   display: inline-block;
 }
-
 .footer .social_links ul li a {
   font-size: 18px;
   color: #fff;
@@ -231,7 +224,6 @@ li {
   line-height: 50px !important;
   margin-right: 7px;
 }
-
 .footer .social_links ul li a:hover {
   color: #fff !important;
 }
