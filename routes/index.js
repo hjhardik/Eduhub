@@ -153,7 +153,6 @@ router.post("/course", async (req, res) => {
         );
       });
     } else {
-      console.log("download error");
       res.sendStatus(204);
     }
   }, 3000);
