@@ -139,42 +139,49 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
           function (event) {
             switch (event.type) {
               case "ANNOTATION_ADDED":
-                try {
+                if (event.data.bodyValue !== "") {
+                  try {
+                    if (
+                      JSON.stringify(event.data.target.selector.boundingBox) ==
+                      JSON.stringify([
+                        594.4658823529412,
+                        774.1270588235294,
+                        611.2376470588235,
+                        792.7623529411765,
+                      ])
+                    ) {
+                      event.data.target.selector.boundingBox = [0, 0, 0, 0];
+                    }
+                  } catch (error) {}
+                  (async () => {
+                    await fetch("/course/annotations/add", {
+                      method: "POST",
+                      headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        data: event.data,
+                        fileId: fileId,
+                      }),
+                    });
+                  })();
                   if (
-                    JSON.stringify(event.data.target.selector.boundingBox) ==
-                    JSON.stringify([
-                      594.4658823529412,
-                      774.1270588235294,
-                      611.2376470588235,
-                      792.7623529411765,
-                    ])
+                    event.data.bodyValue == "completed" ||
+                    event.data.bodyValue == "Completed" ||
+                    event.data.bodyValue == "Course completed." ||
+                    event.data.bodyValue == "complete" ||
+                    event.data.bodyValue == "Complete"
                   ) {
-                    event.data.target.selector.boundingBox = [0, 0, 0, 0];
+                    ga(
+                      "send",
+                      "event",
+                      "COURSE_COMPLETED",
+                      courseName,
+                      userName
+                    );
                   }
-                } catch (error) {}
-                (async () => {
-                  await fetch("/course/annotations/add", {
-                    method: "POST",
-                    headers: {
-                      Accept: "application/json",
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      data: event.data,
-                      fileId: fileId,
-                    }),
-                  });
-                })();
-                if (
-                  event.data.bodyValue == "completed" ||
-                  event.data.bodyValue == "Completed" ||
-                  event.data.bodyValue == "Course completed." ||
-                  event.data.bodyValue == "complete" ||
-                  event.data.bodyValue == "Complete"
-                ) {
-                  ga("send", "event", "COURSE_COMPLETED", courseName, userName);
                 }
-
                 break;
               case "ANNOTATION_UPDATED":
                 (async () => {
