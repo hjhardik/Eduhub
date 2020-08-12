@@ -130,36 +130,32 @@ router.get("/createCourse", ensureAuthenticated, (req, res) => {
 router.post("/course", async (req, res) => {
   var canvaImg = req.body.canvasImg;
   var base64Data = canvaImg.replace(/^data:image\/png;base64,/, "");
-  if (req.user == undefined) {
-    res.sendStatus(204);
-  } else {
-    fs.writeFile(
-      `./public/canvas/${req.user.name}.png`,
-      base64Data,
-      "base64",
-      function (err) {}
-    );
-    if (fs.existsSync(`./public/canvas/${req.user.name}.pdf`)) {
-      fs.unlinkSync(`./public/canvas/${req.user.name}.pdf`);
-    }
-    var outputFile = await require("./../toolsCode")(`${req.user.name}`);
-    setTimeout(() => {
-      if (fs.existsSync(`./public/canvas/${outputFile}`)) {
-        res.download(`./public/canvas/${outputFile}`, function (err) {
-          if (err) {
-            console.log(err); // Check error if you want
-          }
-          // delete the created PDF from the server as the user has downloaded it successfully
-          fs.unlinkSync(`./public/canvas/${outputFile}`);
-          console.log(
-            "Successfully completed PDF download by user and file deleted from server."
-          );
-        });
-      } else {
-        res.sendStatus(204);
-      }
-    }, 5000);
+  fs.writeFile(
+    `./public/canvas/${req.user.name}.png`,
+    base64Data,
+    "base64",
+    function (err) {}
+  );
+  if (fs.existsSync(`./public/canvas/${req.user.name}.pdf`)) {
+    fs.unlinkSync(`./public/canvas/${req.user.name}.pdf`);
   }
+  var outputFile = await require("./../toolsCode")(`${req.user.name}`);
+  setTimeout(() => {
+    if (fs.existsSync(`./public/canvas/${outputFile}`)) {
+      res.download(`./public/canvas/${outputFile}`, function (err) {
+        if (err) {
+          console.log(err); // Check error if you want
+        }
+        // delete the created PDF from the server as the user has downloaded it successfully
+        fs.unlinkSync(`./public/canvas/${outputFile}`);
+        console.log(
+          "User has successfully completed PDF download and file is deleted from server storage."
+        );
+      });
+    } else {
+      res.sendStatus(204);
+    }
+  }, 3000);
 });
 
 //=====================file upload======================
