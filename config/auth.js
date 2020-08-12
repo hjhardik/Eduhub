@@ -12,11 +12,4 @@ module.exports = {
     }
     res.redirect("/dashboard");
   },
-  // ensureAuthTeacher: function (req, res, next) {
-  //   if (req.user.role == "teacher") {
-  //     return next();
-  //   }
-  //   req.flash("error_msg", "That resource is only available for teachers.");
-  //   res.redirect("/dashboard");
-  // },
 };
