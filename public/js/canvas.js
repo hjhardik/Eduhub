@@ -1,4 +1,4 @@
-$(document).ready(function canva() {
+$(document).ready(function () {
   var myCanvas = document.getElementById("myCanvas");
   var ctx = myCanvas.getContext("2d");
 
@@ -26,7 +26,7 @@ $(document).ready(function canva() {
   if (myCanvas) {
     var isDown = false;
     var canvasX, canvasY;
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 3;
 
     $(myCanvas)
       .mousedown(function (e) {
@@ -56,16 +56,22 @@ $(document).ready(function canva() {
     started: false,
     start: function (evt) {
       ctx.beginPath();
-      ctx.moveTo(evt.touches[0].pageX, evt.touches[0].pageY);
+      ctx.moveTo(
+        evt.touches[0].pageX - myCanvas.offsetLeft,
+        evt.touches[0].pageY - myCanvas.offsetTop
+      );
 
       this.started = true;
     },
     move: function (evt) {
       if (this.started) {
-        ctx.lineTo(evt.touches[0].pageX, evt.touches[0].pageY);
+        ctx.lineTo(
+          evt.touches[0].pageX - myCanvas.offsetLeft,
+          evt.touches[0].pageY - myCanvas.offsetTop
+        );
 
         ctx.strokeStyle = "#000";
-        ctx.lineWidth = 5;
+        ctx.lineWidth = 3;
         ctx.stroke();
       }
     },
@@ -79,14 +85,6 @@ $(document).ready(function canva() {
   myCanvas.addEventListener("touchend", draw.end, false);
   myCanvas.addEventListener("touchmove", draw.move, false);
 
-  document.getElementById("download").addEventListener("click", () => {
-    downloadCanvas();
-  });
-  function downloadCanvas() {
-    var img = myCanvas.toDataURL("image/png");
-    document.getElementById("canvasImage").value = img;
-    document.getElementById("submit").click();
-  }
   // Disable Page Move
   document.body.addEventListener(
     "touchmove",
@@ -95,6 +93,14 @@ $(document).ready(function canva() {
     },
     false
   );
+  document.getElementById("download").addEventListener("click", () => {
+    downloadCanvas();
+  });
+  function downloadCanvas() {
+    var img = myCanvas.toDataURL("image/png");
+    document.getElementById("canvasImage").value = img;
+    document.getElementById("submit").click();
+  }
 });
 
 $("#myForm").submit(function (e) {
@@ -103,8 +109,6 @@ $("#myForm").submit(function (e) {
     url: "/course",
     type: "post",
     data: $("#myForm").serialize(),
-    success: function () {
-      console.log("sub");
-    },
+    success: function () {},
   });
 });

@@ -102,7 +102,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
         var oldAnnos = [];
         //updating annotations
         setInterval(async () => {
-          await fetch("/course/annotations/add", {
+          await fetch("/course/annotations/find", {
             method: "POST",
             headers: {
               Accept: "application/json",
@@ -246,7 +246,7 @@ $(".social-share.facebook").on("click", function () {
     "send",
     "event",
     "COURSE_SHARED",
-    document.querySelector(".coursename").innerText,
+    document.querySelector(".course-name").innerText,
     "shared on facebook"
   );
 });
@@ -255,7 +255,7 @@ $(".social-share.twitter").on("click", function () {
     "send",
     "event",
     "COURSE_SHARED",
-    document.querySelector(".coursename").innerText,
+    document.querySelector(".course-name").innerText,
     "shared on twitter"
   );
 });
@@ -264,7 +264,7 @@ $(".social-share.email").on("click", function () {
     "send",
     "event",
     "COURSE_SHARED",
-    document.querySelector(".coursename").innerText,
+    document.querySelector(".course-name").innerText,
     "shared on email"
   );
 });
