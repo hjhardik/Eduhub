@@ -23,8 +23,9 @@ const CLIENT_ID = "5236c1439e15412a9ce423f4a606d16a";
 );
 
 ga("create", TRACKING_ID, "auto");
-ga("send", "pageview");
+ga("send", "page view");
 //==========================================================
+let userName, userEmail, userRole, profile, courseName;
 const viewerConfig = {
   defaultViewMode: "FIT_PAGE", //default mode fit_page
   embedMode: "FULL_WINDOW",
@@ -68,7 +69,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
         /* Pass meta data of file */
         metaData: {
           /* file name */
-          fileName: `${courseTopic}`,
+          fileName: `${courseName}_${courseTopic}`,
           /* file ID */
           id: fileId,
         },
@@ -145,6 +146,15 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                     body: JSON.stringify({ data: event.data, fileId: fileId }),
                   });
                 })();
+                if (
+                  event.data.bodyValue == "completed" ||
+                  event.data.bodyValue == "Completed" ||
+                  event.data.bodyValue == "Course completed." ||
+                  event.data.bodyValue == "complete" ||
+                  event.data.bodyValue == "Complete"
+                ) {
+                  ga("send", "event", "COURSE_COMPLETED", courseName, userName);
+                }
                 break;
               case "ANNOTATION_UPDATED":
                 (async () => {
@@ -185,53 +195,37 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
     adobeDCView.registerCallback(
       AdobeDC.View.Enum.CallbackType.EVENT_LISTENER,
       function (event) {
-        switch (event.type) {
-          case "DOCUMENT_OPEN":
-            ga(
-              "send",
-              "event",
-              "DOCUMENT_OPEN",
-              event.data.fileName,
-              "open document"
-            );
-            break;
-          case "PAGE_VIEW":
-            ga(
-              "send",
-              "event",
-              "PAGE_VIEW",
-              `Page ${event.data.pageNumber} of ${event.data.fileName}`,
-              "view page"
-            );
-            break;
-          case "DOCUMENT_DOWNLOAD":
-            ga(
-              "send",
-              "event",
-              "DOCUMENT_DOWNLOAD",
-              event.data.fileName,
-              "download document"
-            );
-            break;
-          case "DOCUMENT_PRINT":
-            ga(
-              "send",
-              "event",
-              "DOCUMENT_PRINT",
-              event.data.fileName,
-              "print document"
-            );
-            break;
-          case "TEXT_COPY":
-            ga(
-              "send",
-              "event",
-              "TEXT_COPY",
-              `COPIED - ${event.data.copiedText} -FROM ${event.data.fileName}`,
-              "copy text"
-            );
-            break;
-          default:
+        if (userRole == "student") {
+          switch (event.type) {
+            case "DOCUMENT_OPEN":
+              ga("send", "event", "DOCUMENT_OPEN", courseName, userName);
+              break;
+            case "PAGE_VIEW":
+              ga(
+                "send",
+                "event",
+                "PAGE_VIEW",
+                `Page ${event.data.pageNumber} of ${event.data.fileName}`,
+                userName
+              );
+              break;
+            case "DOCUMENT_DOWNLOAD":
+              ga("send", "event", "DOCUMENT_DOWNLOAD", courseName, userName);
+              break;
+            case "DOCUMENT_PRINT":
+              ga("send", "event", "DOCUMENT_PRINT", courseName, userName);
+              break;
+            case "TEXT_COPY":
+              ga(
+                "send",
+                "event",
+                "TEXT_COPY",
+                `COPIED : ${event.data.copiedText} FROM ${event.data.fileName}`,
+                userName
+              );
+              break;
+            default:
+          }
         }
       },
       {
@@ -280,13 +274,14 @@ $(document).ready(() => {
       break;
     }
   }
-  let userName = document.querySelector(".userName").innerText;
-  let userEmail = document.querySelector(".userEmail").innerText;
-  let userRole = document.querySelector(".userRole").innerText;
+  courseName = document.querySelector(".course-name").innerText;
+  userName = document.querySelector(".userName").innerText;
+  userEmail = document.querySelector(".userEmail").innerText;
+  userRole = document.querySelector(".userRole").innerText;
   if (userRole == "teacher") {
     userName = "(TEACHER) " + userName;
   }
-  const profile = {
+  profile = {
     userProfile: {
       name: userName,
       email: userEmail,

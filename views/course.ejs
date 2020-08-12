@@ -36,7 +36,7 @@
           </button>
         </h2>
       </div>  
-      <div id=<%=`${topic}` %> class="collapse show" data-parent="#accordionExample">
+      <div id=<%=`${topic.replace(" ", "_")}` %> class="collapse show" data-parent="#accordionExample">
         <div class="card-body">
             <div id="adobe-dc-view1" style="height: 520px;" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName}_${pdfFile}`%>></div>
         </div>
@@ -51,7 +51,7 @@
           </button>
         </h2>
       </div>  
-      <div id=<%=`${topic}` %> class="collapse" data-parent="#accordionExample">
+      <div id=<%=`${topic.replace(" ", "_")}` %> class="collapse" data-parent="#accordionExample">
         <div class="card-body">
             <div id=<%=`adobe-dc-view${i}`%> style="height: 520px;" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName}_${pdfFile}`%>></div>
         </div>

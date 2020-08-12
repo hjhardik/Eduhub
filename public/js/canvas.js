@@ -2,7 +2,7 @@ $(document).ready(function () {
   var myCanvas = document.getElementById("myCanvas");
   var ctx = myCanvas.getContext("2d");
 
-  // Fill Window Width and Height
+  // set canvas width and height
   myCanvas.width = myCanvas.offsetWidth;
   myCanvas.height = myCanvas.offsetHeight;
 
