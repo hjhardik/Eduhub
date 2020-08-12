@@ -142,6 +142,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
             switch (event.type) {
               case "ANNOTATION_ADDED":
                 if (event.data.bodyValue !== "") {
+                  oldAnnos.push(event.data);
                   (async () => {
                     await fetch("/course/annotations/add", {
                       method: "POST",
