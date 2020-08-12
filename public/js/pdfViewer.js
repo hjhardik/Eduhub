@@ -128,9 +128,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                 annotationManager
                   .addAnnotations(result)
                   .then(function () {})
-                  .catch(function (error) {
-                    console.log(error);
-                  });
+                  .catch(function (error) {});
                 oldAnnos = oldAnnos.concat(result);
               }
             });
@@ -142,7 +140,6 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
             switch (event.type) {
               case "ANNOTATION_ADDED":
                 if (event.data.bodyValue !== "") {
-                  oldAnnos.push(event.data);
                   (async () => {
                     await fetch("/course/annotations/add", {
                       method: "POST",
