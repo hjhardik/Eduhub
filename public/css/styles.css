@@ -18,6 +18,10 @@ li {
 .fileButton {
   margin-bottom: 4px;
 }
+.main-body {
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/climpek.png");
+}
 .topicBox {
   display: block;
 }
