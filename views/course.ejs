@@ -31,7 +31,7 @@
         <div class="card">
       <div class="card-header">
         <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target=<%=`#${topic}`%> aria-expanded="true">
+            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target=<%=`#${topic.replace(" ", "_")}`%> aria-expanded="true">
             <%=`TOPIC ${i} : ${topic.toUpperCase()}`%> 
           </button>
         </h2>
@@ -46,7 +46,7 @@
         <div class="card">
       <div class="card-header">
         <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target=<%=`#${topic}`%> aria-expanded="false">
+            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target=<%=`#${topic.replace(" ", "_")}`%> aria-expanded="false">
             <%=`TOPIC ${i} : ${topic.toUpperCase()}`%> 
           </button>
         </h2>
