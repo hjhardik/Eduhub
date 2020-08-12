@@ -125,12 +125,9 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                     return ol.id === o2.id;
                   });
                 });
-                console.log("xxxx", result);
                 annotationManager
                   .addAnnotations(result)
-                  .then(function () {
-                    console.log("annota added");
-                  })
+                  .then(function () {})
                   .catch(function (error) {
                     console.log(error);
                   });
@@ -144,24 +141,35 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
           function (event) {
             switch (event.type) {
               case "ANNOTATION_ADDED":
-                (async () => {
-                  await fetch("/course/annotations/add", {
-                    method: "POST",
-                    headers: {
-                      Accept: "application/json",
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ data: event.data, fileId: fileId }),
-                  });
-                })();
-                if (
-                  event.data.bodyValue == "completed" ||
-                  event.data.bodyValue == "Completed" ||
-                  event.data.bodyValue == "Course completed." ||
-                  event.data.bodyValue == "complete" ||
-                  event.data.bodyValue == "Complete"
-                ) {
-                  ga("send", "event", "COURSE_COMPLETED", courseName, userName);
+                if (event.data.bodyValue !== "") {
+                  (async () => {
+                    await fetch("/course/annotations/add", {
+                      method: "POST",
+                      headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        data: event.data,
+                        fileId: fileId,
+                      }),
+                    });
+                  })();
+                  if (
+                    event.data.bodyValue == "completed" ||
+                    event.data.bodyValue == "Completed" ||
+                    event.data.bodyValue == "Course completed." ||
+                    event.data.bodyValue == "complete" ||
+                    event.data.bodyValue == "Complete"
+                  ) {
+                    ga(
+                      "send",
+                      "event",
+                      "COURSE_COMPLETED",
+                      courseName,
+                      userName
+                    );
+                  }
                 }
                 break;
               case "ANNOTATION_UPDATED":
