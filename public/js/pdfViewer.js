@@ -119,17 +119,21 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
               res.forEach((r) => {
                 updatedAnnos.push(r.data);
               });
-              console.log(updatedAnnos, "XXXXXx", oldAnnos);
               if (JSON.stringify(updatedAnnos) !== JSON.stringify(oldAnnos)) {
                 let result = updatedAnnos.filter((ol) => {
                   return !oldAnnos.some((o2) => {
                     return ol.id === o2.id;
                   });
                 });
+                console.log("xxxx", result);
                 annotationManager
                   .addAnnotations(result)
-                  .then(function () {})
-                  .catch(function (error) {});
+                  .then(function () {
+                    console.log("annota added");
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
                 oldAnnos = oldAnnos.concat(result);
               }
             });
