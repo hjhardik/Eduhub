@@ -115,12 +115,11 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
               return response.json();
             })
             .then((res) => {
-              console.log(res);
               let updatedAnnos = [];
               res.forEach((r) => {
                 updatedAnnos.push(r.data);
               });
-
+              console.log(updatedAnnos, "XXXXXx", oldAnnos);
               if (JSON.stringify(updatedAnnos) !== JSON.stringify(oldAnnos)) {
                 let result = updatedAnnos.filter((ol) => {
                   return !oldAnnos.some((o2) => {
