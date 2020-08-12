@@ -111,6 +111,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
             },
             body: JSON.stringify({ fileId: fileId }),
           }).then((res) => {
+            console.log(res);
             let updatedAnnos = [];
             res.forEach((r) => {
               updatedAnnos.push(r.data);
