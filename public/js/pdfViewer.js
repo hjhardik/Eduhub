@@ -1,7 +1,8 @@
+//update your own tracking id and adobe embed api client id
 const TRACKING_ID = "UA-171409849-3";
 const CLIENT_ID = "c096c58dac3b430293d3871d7b1c72c0";
 
-// GOOGLE ANALYTICS
+// GOOGLE ANALYTICS ga function
 (function (i, s, o, g, r, a, m) {
   i["GoogleAnalyticsObject"] = r;
   (i[r] =
@@ -24,11 +25,13 @@ const CLIENT_ID = "c096c58dac3b430293d3871d7b1c72c0";
 
 ga("create", TRACKING_ID, "auto");
 ga("send", "page view");
-//==========================================================
+//==========================================================end of ga function
+//initialize user vars
 let userName, userEmail, userRole, profile, courseName;
+//viewerConfig for PDf viewer
 const viewerConfig = {
   defaultViewMode: "FIT_PAGE", //default mode fit_page
-  embedMode: "FULL_WINDOW",
+  embedMode: "FULL_WINDOW", //full window display
   enableFormFilling: true,
   showPageControls: true, //controls
   showAnnotationTools: true, //annotation tools
@@ -66,7 +69,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
             url: `./../uploads/${pdfFileLocation}`,
           },
         },
-        /* Pass meta data of file */
+        /* Passed meta data of file */
         metaData: {
           /* file name */
           fileName: `${courseName}_${courseTopic}`,
@@ -84,6 +87,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
         return new Promise((resolve, reject) => {
           resolve({
             code: AdobeDC.View.Enum.ApiResponseCode.SUCCESS,
+            //set user name instead of guest
             data: profile,
           });
         });
@@ -101,7 +105,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
 
         //array to store annotations
         var oldAnnos = [];
-        //updating annotations
+        //updating annotations automatically
         setInterval(async () => {
           await fetch("/course/annotations/find", {
             method: "POST",
@@ -119,16 +123,20 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
               res.forEach((r) => {
                 updatedAnnos.push(r.data);
               });
+              //updated annos contains the updated version of annotations
+              //if the present annos are different than updated ones, then updates it otherwise not
               if (JSON.stringify(updatedAnnos) !== JSON.stringify(oldAnnos)) {
                 let result = updatedAnnos.filter((ol) => {
                   return !oldAnnos.some((o2) => {
                     return ol.id === o2.id;
                   });
                 });
+                //add annotations through annotationManager API
                 annotationManager
                   .addAnnotations(result)
                   .then(function () {})
                   .catch(function (error) {});
+                //updates the present annos
                 oldAnnos = oldAnnos.concat(result);
               }
             });
@@ -138,10 +146,13 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
         annotationManager.registerEventListener(
           function (event) {
             switch (event.type) {
+              // if annotations are added
               case "ANNOTATION_ADDED":
                 if (event.data.bodyValue !== "") {
                   try {
                     if (
+                      //if the user doesn't give any position to annotation, it will default go to this boundingBox location
+                      //therefore checking if the two obejcts are same and then updating the position to right,lower position of the PDF page.
                       JSON.stringify(event.data.target.selector.boundingBox) ==
                       JSON.stringify([
                         594.4658823529412,
@@ -153,6 +164,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                       event.data.target.selector.boundingBox = [0, 0, 0, 0];
                     }
                   } catch (error) {}
+                  //update added annotation to database storage by sending event data with POST request
                   (async () => {
                     await fetch("/course/annotations/add", {
                       method: "POST",
@@ -166,6 +178,8 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                       }),
                     });
                   })();
+                  //if the student comments any of the following on anyone of the PDF of the course, then
+                  //the respective course is marked as completed for the student
                   if (
                     event.data.bodyValue == "completed" ||
                     event.data.bodyValue == "Completed" ||
@@ -173,6 +187,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                     event.data.bodyValue == "complete" ||
                     event.data.bodyValue == "Complete"
                   ) {
+                    //sends GA event as course completed
                     ga(
                       "send",
                       "event",
@@ -184,6 +199,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                 }
                 break;
               case "ANNOTATION_UPDATED":
+                //update updated annotation to database storage by sending event data with POST request
                 (async () => {
                   await fetch("/course/annotations/update", {
                     method: "POST",
@@ -195,6 +211,7 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                   });
                 })();
                 break;
+              //delete annotation from the database storage by sending event data with POST request
               case "ANNOTATION_DELETED":
                 (async () => {
                   await fetch("/course/annotations/delete", {
@@ -222,11 +239,14 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
     adobeDCView.registerCallback(
       AdobeDC.View.Enum.CallbackType.EVENT_LISTENER,
       function (event) {
+        //only track student's events
         if (userRole == "student") {
           switch (event.type) {
+            //if PDF file is opened
             case "DOCUMENT_OPEN":
               ga("send", "event", "DOCUMENT_OPEN", courseName, userName);
               break;
+            //if page is viewed
             case "PAGE_VIEW":
               ga(
                 "send",
@@ -236,12 +256,15 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
                 userName
               );
               break;
+            //if file is downloaded
             case "DOCUMENT_DOWNLOAD":
               ga("send", "event", "DOCUMENT_DOWNLOAD", courseName, userName);
               break;
+            //if file is printed
             case "DOCUMENT_PRINT":
               ga("send", "event", "DOCUMENT_PRINT", courseName, userName);
               break;
+            // if text is copied
             case "TEXT_COPY":
               ga(
                 "send",
@@ -262,30 +285,36 @@ function viewPdf(id, courseTopic, pdfFileLocation, fileId) {
   });
 }
 $(document).ready(() => {
+  //attaches respective PDF file to respective adobe-dc-views(1,2,..)
   for (let i = 1; i <= 5; i++) {
     if (document.getElementById(`adobe-dc-view${i}`) != null) {
       let ele = document.getElementById(`adobe-dc-view${i}`);
       let pdfFile = ele.classList[0];
       let fileId = ele.getAttribute("fileId");
       let topic = ele.parentElement.parentElement.id;
+      //call viewPDF function now
       viewPdf(i, topic, pdfFile, fileId);
     } else {
       break;
     }
   }
+  //find user and course related data
   courseName = document.querySelector(".course-name").innerText;
   userName = document.querySelector(".userName").innerText;
   userEmail = document.querySelector(".userEmail").innerText;
   userRole = document.querySelector(".userRole").innerText;
+  //comments will show as "(TEACHER) teacherName" so tat users can easiy see it as an important comment
   if (userRole == "teacher") {
     userName = "(TEACHER) " + userName;
   }
+  //sets profile data to userData which later will be passed as userConfig to Annotations API
   profile = {
     userProfile: {
       name: userName,
       email: userEmail,
     },
   };
+  //handles the sharing of course links thorough social media
   function socialWindow(url) {
     var left = (screen.width - 570) / 2;
     var top = (screen.height - 570) / 2;
@@ -301,6 +330,7 @@ $(document).ready(() => {
     var tweet = encodeURIComponent(
       $("meta[property='og:description']").attr("content")
     );
+    //handles the sharing of course links thorough facebook
     $(".social-share.facebook").on("click", function () {
       url = "https://www.facebook.com/sharer.php?u=" + pageUrl;
       socialWindow(url);
@@ -312,6 +342,7 @@ $(document).ready(() => {
         "shared on facebook"
       );
     });
+    //handles the sharing of course links thorough twitter
     $(".social-share.twitter").on("click", function () {
       url =
         "https://twitter.com/intent/tweet?url=" + pageUrl + "&text=" + tweet;
@@ -324,6 +355,7 @@ $(document).ready(() => {
         "shared on twitter"
       );
     });
+    //handles the sharing of course links thorough email
     $(".social-share.email").on("click", function () {
       url =
         "mailto:?subject=Course%20from%20Education%20Hub&body=Hi,%20I%20found%20this%20course%20from%20the%20Education%20Hub.%20%20" +
@@ -338,5 +370,6 @@ $(document).ready(() => {
       );
     });
   }
+  //call setShareLinks()
   setShareLinks();
 });

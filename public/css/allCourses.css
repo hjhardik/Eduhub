@@ -1,11 +1,13 @@
+/* card margin */
 .col-sm-12 {
   margin-bottom: 2%;
 }
+/* allCourses card link colour  */
 .card-link.allCourses {
   color: blanchedalmond;
   font-weight: bold;
 }
-
+/* card link on hover */
 .card-link:hover {
   border-color: inherit;
   padding: 3px;

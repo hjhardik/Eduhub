@@ -1,1 +1,4 @@
-This file is to make sure canvas folder gets deployed.
+This file is present only for purpose that canavas folder doesn't remain empty nd thus can be deployed by the server.
+The canavas folder will temporarily hold the PNG image of the canvas board and when the PDF is created from
+the image successfully, the image is deleted automatically. After the user download of PDF file is successfully
+completed, the PDF file is then also deleted to ensure no wastage of server space.

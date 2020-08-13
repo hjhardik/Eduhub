@@ -1,7 +1,7 @@
 const express = require("express");
-const multer = require("multer");
-const router = express.Router();
-const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
+const multer = require("multer"); //for storing PDF files to server
+const router = express.Router(); //express router
+const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth"); ///autheticatiion midlewares
 const path = require("path");
 const fs = require("fs");
 
@@ -14,10 +14,10 @@ router.get("/", forwardAuthenticated, (req, res) => res.render("welcome"));
 
 // Dashboard
 router.get("/dashboard", ensureAuthenticated, async (req, res) => {
+  //recieve latest 3 courses and all of the courses from the database,respectively
   let latestCourses = await Course.find({}).sort({ date: -1 }).limit(3);
-
   let allCourses = await Course.find({}).sort({ date: -1 });
-
+  //if user is accessign dashboard route
   if (req.user.role == "student") {
     res.render("dashboard", {
       user: req.user,
@@ -25,6 +25,7 @@ router.get("/dashboard", ensureAuthenticated, async (req, res) => {
       allCourses,
     });
   } else {
+    //also sends courses created b the teacher to teacherDashboard
     const teacherCourses = await Course.find({
       teacherName: req.user.name,
     }).sort({ date: -1 });
@@ -37,7 +38,9 @@ router.get("/dashboard", ensureAuthenticated, async (req, res) => {
   }
 });
 
+//get asked course through _id of course
 router.get("/course/:id", ensureAuthenticated, async (req, res) => {
+  //finds course with same _id from database
   const requestedCourse = await Course.findOne({ _id: req.params.id });
   if (requestedCourse != null) {
     res.render("course", {
@@ -47,15 +50,17 @@ router.get("/course/:id", ensureAuthenticated, async (req, res) => {
       userEmail: req.user.email,
     });
   } else {
+    //if case of error ,display 404
     res.render("error");
   }
 });
-
+//find annotations for a given file though fileId
 router.post("/course/annotations/find", async (req, res) => {
   let reqFile = req.body.fileId;
   if (reqFile == "") {
     res.sendStatus(200);
   } else {
+    //finds all annotations with same fileId
     await Annotation.find({ fileId: reqFile })
       .select({ _id: 0, data: 1 })
       .exec((err, annos) => {
@@ -67,7 +72,7 @@ router.post("/course/annotations/find", async (req, res) => {
       });
   }
 });
-
+//add annos route
 router.post("/course/annotations/add", async (req, res) => {
   let data = req.body.data;
   let fileName = req.body.fileId;
@@ -76,6 +81,7 @@ router.post("/course/annotations/add", async (req, res) => {
   } else {
     let id = data.id;
     await Annotation.findOne({ id: id, fileId: fileName }).then((anno) => {
+      //chekcs if already not present, then creates one
       if (!anno) {
         const ano = new Annotation({
           id: id,
@@ -88,12 +94,12 @@ router.post("/course/annotations/add", async (req, res) => {
     res.sendStatus(200);
   }
 });
-
+//update annos route
 router.post("/course/annotations/update", (req, res) => {
   let data = req.body.data;
   let fileName = req.body.fileId;
   let id = data.id;
-
+  //find annos from DB by fileId and then updates it
   Annotation.findOneAndUpdate(
     { id: id, fileId: fileName },
     { "data.bodyValue": data.bodyValue },
@@ -105,12 +111,12 @@ router.post("/course/annotations/update", (req, res) => {
   );
   res.sendStatus(200);
 });
-
+//delete annos route
 router.post("/course/annotations/delete", async (req, res) => {
   let data = req.body.data;
   let fileName = req.body.fileId;
   let id = data.id;
-
+  //finds annos by _id and then dleets it from DB
   await Annotation.deleteOne({ id: id, fileId: fileName }, (err) => {
     if (err) {
       console.log(err);
@@ -118,8 +124,9 @@ router.post("/course/annotations/delete", async (req, res) => {
   });
   res.sendStatus(200);
 });
-
+//createCourse route
 router.get("/createCourse", ensureAuthenticated, (req, res) => {
+  //not allow if student tries to access the route
   if (req.user.role == "student") {
     req.flash("error_msg", "Only available for teachers.");
     res.redirect("/dashboard");
@@ -127,6 +134,7 @@ router.get("/createCourse", ensureAuthenticated, (req, res) => {
     res.render("createCourse");
   }
 });
+//recive canvas image as base64 string then convert it PNG file by fs.writeFIle
 router.post("/course", async (req, res) => {
   var canvaImg = req.body.canvasImg;
   var base64Data = canvaImg.replace(/^data:image\/png;base64,/, "");
@@ -136,10 +144,13 @@ router.post("/course", async (req, res) => {
     "base64",
     function (err) {}
   );
+  //chekcs if by fault PDF is already present and if so deletes it
   if (fs.existsSync(`./public/canvas/${req.user.name}.pdf`)) {
     fs.unlinkSync(`./public/canvas/${req.user.name}.pdf`);
   }
+  //call the toolsCode.js code (PDF TOOLS API CODE) present in ./../toolsCode.js file
   var outputFile = await require("./../toolsCode")(`${req.user.name}`);
+  //wait for 3 secs then send download file request to user
   setTimeout(() => {
     if (fs.existsSync(`./public/canvas/${outputFile}`)) {
       res.download(`./public/canvas/${outputFile}`, function (err) {
@@ -153,6 +164,7 @@ router.post("/course", async (req, res) => {
         );
       });
     } else {
+      // if something errorprone happens send no content
       res.sendStatus(204);
     }
   }, 3000);
@@ -213,12 +225,13 @@ function checkFileType(file, cb) {
 }
 
 //====================================================
+//create new course
 router.post("/createCourse", upload, (req, res) => {
   const teacherName = req.user.name;
   const { courseName, subjectName, totalTopics, description } = req.body;
   let errors = [];
 
-  // form validation
+  // form validation checks
   if (!courseName || !subjectName || !parseInt(totalTopics) || !description) {
     errors.push({ msg: "Please enter all fields" });
   }
@@ -229,6 +242,7 @@ router.post("/createCourse", upload, (req, res) => {
   ) {
     errors.push({ msg: "Please enter brief values for fields." });
   }
+  //if any of the topic fields are empty
   try {
     if (
       req.body.topic1 == "" ||
@@ -240,7 +254,7 @@ router.post("/createCourse", upload, (req, res) => {
       errors.push({ msg: "Please enter all topic fields." });
     }
   } catch {}
-
+  //if no PDF is selected in any of the file inputs
   if (totalTopics == 1) {
     if (req.files.pdfFile1 == undefined) {
       errors.push({ msg: "Please upload the required Pdf file." });
@@ -277,7 +291,7 @@ router.post("/createCourse", upload, (req, res) => {
       errors.push({ msg: "Please upload all necessary PDFs." });
     }
   }
-
+  //if validation not succeded, re-render page
   if (errors.length > 0) {
     res.render("createCourse", {
       errors,
@@ -286,6 +300,7 @@ router.post("/createCourse", upload, (req, res) => {
       description,
     });
   } else {
+    //else create new course in database by trimming trailing and preceding spaces
     const newCourse = new Course({
       courseName: courseName.trim(),
       subjectName: subjectName.trim(),
@@ -307,6 +322,7 @@ router.post("/createCourse", upload, (req, res) => {
       topicFive: req.body.topic5 != undefined ? req.body.topic5.trim() : null,
       description: description.trim(),
     });
+    //save newCourse
     newCourse
       .save()
       .then((course) => {
@@ -316,4 +332,5 @@ router.post("/createCourse", upload, (req, res) => {
       .catch((err) => console.log(err));
   }
 });
+//export the router
 module.exports = router;

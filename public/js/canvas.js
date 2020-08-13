@@ -1,3 +1,4 @@
+//CANVAS DRAWING FUNCTIONALITY
 $(document).ready(function () {
   var myCanvas = document.getElementById("myCanvas");
   var ctx = myCanvas.getContext("2d");
@@ -12,7 +13,7 @@ $(document).ready(function () {
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
   }
-
+  //calling clear when clear is clicked
   document.getElementById("clear").addEventListener("click", (event) => {
     event.preventDefault();
     clearCanvas();
@@ -22,7 +23,7 @@ $(document).ready(function () {
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
 
-  // Mouse Event Handlers
+  // Mouse Event Handlers for PC
   if (myCanvas) {
     var isDown = false;
     var canvasX, canvasY;
@@ -51,7 +52,7 @@ $(document).ready(function () {
       });
   }
 
-  // Touch Events Handlers
+  // Touch Events Handlers for MOBILE VIEWS
   draw = {
     started: false,
     start: function (evt) {
@@ -60,7 +61,6 @@ $(document).ready(function () {
         evt.touches[0].pageX - myCanvas.offsetLeft,
         evt.touches[0].pageY - myCanvas.offsetTop
       );
-
       this.started = true;
     },
     move: function (evt) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
     },
   };
 
-  // Touch Events
+  // Touch Events HANDLER
   myCanvas.addEventListener("touchstart", draw.start, false);
   myCanvas.addEventListener("touchend", draw.end, false);
   myCanvas.addEventListener("touchmove", draw.move, false);
@@ -89,20 +89,23 @@ $(document).ready(function () {
   document.body.addEventListener(
     "touchmove",
     function (evt) {
+      //DEFAULT CAN'T BE PREVENTED DUE TO NEW CHROME FEATURES
       //evt.preventDefault();
     },
     false
   );
+  //DOWNLOAD BOARD CALL
   document.getElementById("download").addEventListener("click", () => {
     downloadCanvas();
   });
+  //CONVERT CANVAS TO PNG IMAGE THEN SEND THE base64 encoded string to server
   function downloadCanvas() {
-    var img = myCanvas.toDataURL("image/png");
+    var img = myCanvas.toDataURL("image/png"); //converted to base 64
     document.getElementById("canvasImage").value = img;
     document.getElementById("submit").click();
   }
 });
-
+//ajax call to server sending encoded image data
 $("#myForm").submit(function (e) {
   e.preventDefault();
   $.ajax({

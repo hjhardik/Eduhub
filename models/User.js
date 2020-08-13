@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+//creating user schema to store user info in database
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  //if teacher or student
   role: {
     type: String,
     default: "student",
@@ -22,7 +23,7 @@ const UserSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
+//creating model
 const User = mongoose.model("User", UserSchema);
-
+//exporting model
 module.exports = User;

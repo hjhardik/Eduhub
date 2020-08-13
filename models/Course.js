@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+//creating course schema to store courses created by the teachers
 const courseSchema = new mongoose.Schema({
   courseName: {
     type: String,
@@ -15,6 +16,7 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  //max five topics option is present therefore five files(each for one topic)
   totalTopics: {
     type: Number,
     required: true,
@@ -60,12 +62,13 @@ const courseSchema = new mongoose.Schema({
     required: true,
     maxlength: 150,
   },
+  //date of creation
   date: {
     type: Date,
     default: Date.now,
   },
 });
-
+//creating model
 const Course = mongoose.model("Course", courseSchema);
-
+//exporting model
 module.exports = Course;

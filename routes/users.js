@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-// Load User model
+// Load User models
 const User = require("../models/User");
+//forward authentication middleware
 const { forwardAuthenticated } = require("../config/auth");
 
 // Login Page
@@ -41,6 +42,7 @@ router.post("/register", (req, res) => {
       password2,
     });
   } else {
+    //if email is already registered
     User.findOne({ email: email }).then((user) => {
       if (user) {
         errors.push({ msg: "Email already exists" });
@@ -58,7 +60,7 @@ router.post("/register", (req, res) => {
           password,
           role,
         });
-
+        //save hashed password
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;

@@ -1,14 +1,16 @@
 <script src="/js/canvas.js"></script>
-<link rel="stylesheet" href="/css/canvas.css">
+<link rel="stylesheet" href="/css/canvas.css" />
 <h3 class="whiteboard">Whiteboard</h3>
 <div class="canvasDiv">
-<canvas id="myCanvas" height="420">
+  <canvas id="myCanvas" height="420">
     Sorry, your browser does not support HTML5 canvas technology.
-</canvas>
+  </canvas>
 </div>
 <button id="clear" class="btn btn-primary">Clear</button>
-<button id="download" class="btn btn-primary">Download Board <i class="fas fa-file-pdf" style="margin-left: 3px;"></i></button>
+<button id="download" class="btn btn-primary">
+  Download Board <i class="fas fa-file-pdf" style="margin-left: 3px;"></i>
+</button>
 <form id="myForm" action="/course" method="post">
-<input type="hidden" id="canvasImage" name="canvasImg" value="" />
-<button id="submit" type="submit" style="display: none;"></button>
+  <input type="hidden" id="canvasImage" name="canvasImg" value="" />
+  <button id="submit" type="submit" style="display: none;"></button>
 </form>

@@ -1,10 +1,11 @@
+/* canvas css */
 #myCanvas {
   position: relative;
   cursor: crosshair;
   border: 3px solid #eb6864;
   width: 100%;
 }
-
+/* whiteboard div css */
 .whiteboard {
   margin-bottom: 0;
   font-family: "Pacifico", cursive;

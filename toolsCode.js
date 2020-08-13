@@ -1,3 +1,4 @@
+//ADOBE PDF TOOLS API CODE TO CONVERT TO PDF
 const PDFToolsSdk = require("@adobe/documentservices-pdftools-node-sdk");
 const fs = require("fs");
 
@@ -42,5 +43,5 @@ module.exports = async function (imageLoc) {
   } catch (err) {
     console.log("Exception encountered while executing operation", err);
   }
-  return output;
+  return output; //send back putput PDF file location
 };

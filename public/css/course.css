@@ -1,3 +1,4 @@
+/* COURSE CSS */
 .course-details {
   display: block;
 }
@@ -19,6 +20,7 @@
   cursor: pointer;
   text-decoration: underline;
 }
+/* SHARING FUNCTIONALITY CSS */
 .sharing-div {
   text-align: right;
   padding-bottom: 7px;
@@ -44,7 +46,7 @@
 .sharing span {
   font-family: "Pacifico", cursive;
 }
-
+/* MOBILE VIEW CSS */
 @media screen and (max-width: 600px) {
   .back {
     margin-top: 12px;
