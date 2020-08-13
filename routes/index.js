@@ -287,25 +287,25 @@ router.post("/createCourse", upload, (req, res) => {
     });
   } else {
     const newCourse = new Course({
-      courseName,
-      subjectName,
-      teacherName,
+      courseName: courseName.trim(),
+      subjectName: subjectName.trim(),
+      teacherName: teacherName.trim(),
       totalTopics,
       fileOne: req.files.pdfFile1[0].filename,
-      topicOne: req.body.topic1,
+      topicOne: req.body.topic1.trim(),
       fileTwo:
         req.files.pdfFile2 != undefined ? req.files.pdfFile2[0].filename : null,
-      topicTwo: req.body.topic2 != undefined ? req.body.topic2 : null,
+      topicTwo: req.body.topic2 != undefined ? req.body.topic2.trim() : null,
       fileThree:
         req.files.pdfFile3 != undefined ? req.files.pdfFile3[0].filename : null,
-      topicThree: req.body.topic3 != undefined ? req.body.topic3 : null,
+      topicThree: req.body.topic3 != undefined ? req.body.topic3.trim() : null,
       fileFour:
         req.files.pdfFile4 != undefined ? req.files.pdfFile4[0].filename : null,
-      topicFour: req.body.topic4 != undefined ? req.body.topic4 : null,
+      topicFour: req.body.topic4 != undefined ? req.body.topic4.trim() : null,
       fileFive:
         req.files.pdfFile5 != undefined ? req.files.pdfFile5[0].filename : null,
-      topicFive: req.body.topic5 != undefined ? req.body.topic5 : null,
-      description,
+      topicFive: req.body.topic5 != undefined ? req.body.topic5.trim() : null,
+      description: description.trim(),
     });
     newCourse
       .save()
