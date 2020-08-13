@@ -38,7 +38,7 @@
       </div>  
       <div id=<%=`${topic.replace(" ", "_")}` %> class="collapse show" data-parent="#accordionExample">
         <div class="card-body">
-            <div id="adobe-dc-view1" style="height: 520px;" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName.replace("","_")}_${pdfFile}`%>></div>
+            <div id="adobe-dc-view1" style="height: 520px;" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName.replace(" ","_")}_${pdfFile}`%>></div>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
       </div>  
       <div id=<%=`${topic.replace(" ", "_")}` %> class="collapse" data-parent="#accordionExample">
         <div class="card-body">
-            <div id=<%=`adobe-dc-view${i}`%> style="height: 520px;" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName.replace("","_")}_${pdfFile}`%>></div>
+            <div id=<%=`adobe-dc-view${i}`%> style="height: 520px;" class=<%=`${pdfFile}`%> fileId=<%=`${course.courseName.replace(" ","_")}_${pdfFile}`%>></div>
         </div>
       </div>
     </div>
