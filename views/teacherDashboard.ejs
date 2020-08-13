@@ -1,11 +1,11 @@
 <% include ./partials/messages %>
 <h1 class="mt-4">Teacher Dashboard</h1>
 <p class="lead mb-3">Welcome <%= user.name %> Teacher</p>
-<a href="/users/logout" class="btn btn-secondary" style="float: right;border: 2px solid black;">Logout</a>
+<a href="/users/logout" class="btn btn-secondary" style="float: right;border: 2px solid black;margin-bottom: 11px;">Logout</a>
 
 <div>
   <h3>Courses</h3>
-  <a href="/createCourse" class="btn btn-primary" style="margin-bottom:15px;border: 2px solid red;"><h7>Create New Course +</h7></a>
+  <a href="/createCourse" class="btn btn-primary" style="margin-bottom:19px;border: 2px solid red;"><h7>Create New Course +</h7></a>
   <% include ./partials/yourCourses.ejs %> <% include
   ./partials/latestCourses.ejs %> <% include ./partials/allCourses.ejs %>
 </div>

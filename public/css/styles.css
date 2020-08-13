@@ -22,6 +22,9 @@
 li {
   list-style-type: none;
 }
+.logo {
+  margin-bottom: 12px;
+}
 .fileButton {
   margin-bottom: 4px;
 }
