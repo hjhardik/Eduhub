@@ -22,11 +22,11 @@ https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
    https://lit-lowlands-71008.herokuapp.com/
 
 -- YOU CAN REGISTER AS NEW USERS BUT HERE ARE ALREADY MADE ACCOUNTS BY ME(email/password) :
--STUDENTS
+STUDENTS
 hardik@gmail.com/hardik
 bill@gmail.com/bill100
 
--TEACHERS
+TEACHERS
 michael@mit.edu/michael
 david@mit.edu/davidmit
 
@@ -56,7 +56,7 @@ Also , course sharing functionality is prvided to directly share the course link
 ## CANVAS WHITEBOARD
 A canvas whiteboard is also available below every course so that user can easily draw anything he/she may feel important, and then it can be downloaded easily as a PDF. Also the whole whiteboard can be easily cleared with the clean button. When you click the download button, it will automatically convert the canavas to base64 image and send it to server. Then on the server it is converted to PNG image and then PDF TOOLS API is called to create PDF from the image. After PDF is created successfully, download request is sent to the user and PDF gets downloaded on their device and atlast, all the temporary images and PDF file are deleted from the server automatically.
 
-
+## GA DASHBOARD
 -- GA DASHBOARD TEMPLATE (LINK TO MY DASHBOARD TEMPLATE)
 https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
 
