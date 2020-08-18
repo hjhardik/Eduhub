@@ -15,18 +15,18 @@ EduHub is an online website where audience (teachers and students) can collabora
 2. Else you can use the same database and just update the TRACKING_ID and CLIENT_ID with your own credentials.
 
 3. FOR ANALYTICS DASHBOARD,
-## DASHBOARD TEMPLATE (LINK TO MY DASHBOARD TEMPLATE)
+-- GA DASHBOARD TEMPLATE (LINK TO MY DASHBOARD TEMPLATE)
 https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
 
 4. Link to my final deployed web application :
    https://lit-lowlands-71008.herokuapp.com/
 
-##YOU CAN REGISTER AS NEW USERS BUT HERE ARE ALREADY MADE ACCOUNTS BY ME(email/password) :
---STUDENTS
+-- YOU CAN REGISTER AS NEW USERS BUT HERE ARE ALREADY MADE ACCOUNTS BY ME(email/password) :
+-STUDENTS
 hardik@gmail.com/hardik
 bill@gmail.com/bill100
 
---TEACHERS
+-TEACHERS
 michael@mit.edu/michael
 david@mit.edu/davidmit
 
@@ -57,14 +57,13 @@ Also , course sharing functionality is prvided to directly share the course link
 A canvas whiteboard is also available below every course so that user can easily draw anything he/she may feel important, and then it can be downloaded easily as a PDF. Also the whole whiteboard can be easily cleared with the clean button. When you click the download button, it will automatically convert the canavas to base64 image and send it to server. Then on the server it is converted to PNG image and then PDF TOOLS API is called to create PDF from the image. After PDF is created successfully, download request is sent to the user and PDF gets downloaded on their device and atlast, all the temporary images and PDF file are deleted from the server automatically.
 
 
-## GA DASHBOARD TEMPLATE (LINK TO MY DASHBOARD TEMPLATE)
-
+-- GA DASHBOARD TEMPLATE (LINK TO MY DASHBOARD TEMPLATE)
 https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
 ---
 
-## if you are able to correctly implement the GA dashboard, your dashboard will look similar to this:
+-- if you are able to correctly implement the GA dashboard, your dashboard will look similar to this:
 https://drive.google.com/file/d/1B1T70fvbnlhPTtlDrcDTnvBw0q3ckdXW/view?usp=sharing
 
 
-## Link to my final deployed web application :
+## Link to the final deployed web application :
 https://lit-lowlands-71008.herokuapp.com/
