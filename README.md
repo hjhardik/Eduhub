@@ -1,5 +1,5 @@
 # Eduhub
-EduHub is an online website where audience (teachers and students) can collaborate on online lesson materials and study guides in a seamless manner.
+EduHub is an online web application where audience (teachers and students) can collaborate on online lesson materials and study guides in a seamless manner.
 
 --- https://lit-lowlands-71008.herokuapp.com/ 
 
