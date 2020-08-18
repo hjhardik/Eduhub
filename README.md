@@ -1,9 +1,7 @@
 # Eduhub
 EduHub is an online website where audience (teachers and students) can collaborate on online lesson materials and study guides in a seamless manner.
 
-
-#----------------------- Web Application Documentation -----------------------#
---------------- https://lit-lowlands-71008.herokuapp.com/ --------------
+--- https://lit-lowlands-71008.herokuapp.com/ 
 
 ## Deployment
 ---
