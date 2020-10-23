@@ -8,7 +8,7 @@ EduHub is an online web application where audience (teachers and students) can c
 1. If you want to deploy it on your own custom domain, three changes will be required :
    -- in public/js/pdfViewer.js, update the google analytics TRACKING_ID to your own tracking id
    -- in public/js/pdfViewer.js, update the PDF embed API CLIENT_ID with your own API client id
-   -- in config/keys.js, if you want to use your own MONOGDB Atlas database, update dbPAssword as specified there.
+   -- in config/keys.js, if you want to use your own MongoDB Atlas database, update dbPAssword as specified there.
 
    THATS' IT and you are ready to go.
 
@@ -21,7 +21,7 @@ https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
 4. Link to my final deployed web application :
    https://lit-lowlands-71008.herokuapp.com/
 
--- YOU CAN REGISTER AS NEW USERS BUT HERE ARE ALREADY MADE ACCOUNTS BY ME(email/password) :
+-- You are free to register new users but here are some test accounts(email/password) :
 STUDENTS
 hardik@gmail.com/hardik
 bill@gmail.com/bill100
