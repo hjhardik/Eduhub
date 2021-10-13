@@ -62,7 +62,7 @@ https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
 
 
 -- if you are able to correctly implement the GA dashboard, your dashboard will look similar to this:
-https://drive.google.com/file/d/1B1T70fvbnlhPTtlDrcDTnvBw0q3ckdXW/view?usp=sharing
+![Analytics Dashboard](./Analytics All Web Site Data Hardik Use Case - 2.jpg)
 
 
 ## Link to the final deployed web application :
