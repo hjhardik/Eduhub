@@ -15,8 +15,7 @@ EduHub is an online web application where audience (teachers and students) can c
 2. Else you can use the same database and just update the TRACKING_ID and CLIENT_ID with your own credentials.
 
 3. FOR ANALYTICS DASHBOARD,
--- GA DASHBOARD TEMPLATE (LINK TO MY DASHBOARD TEMPLATE)
-   https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
+-- GA DASHBOARD TEMPLATE (Click [here](https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ) for my dashboard template))
 -- if you are able to correctly implement the GA dashboard, your dashboard will look similar to this:
    ![Analytics Dashboard](AnalyticsWebDataUseCase.jpg)
 
