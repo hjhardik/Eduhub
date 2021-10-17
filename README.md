@@ -16,7 +16,10 @@ EduHub is an online web application where audience (teachers and students) can c
 
 3. FOR ANALYTICS DASHBOARD,
 -- GA DASHBOARD TEMPLATE (LINK TO MY DASHBOARD TEMPLATE)
-https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
+   https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
+-- if you are able to correctly implement the GA dashboard, your dashboard will look similar to this:
+   ![Analytics Dashboard](AnalyticsWebDataUseCase.jpg)
+
 
 4. Link to my final deployed web application :
    https://lit-lowlands-71008.herokuapp.com/
@@ -59,10 +62,6 @@ A canvas whiteboard is also available below every course so that user can easily
 ## GA DASHBOARD
 -- GA DASHBOARD TEMPLATE (LINK TO MY DASHBOARD TEMPLATE)
 https://analytics.google.com/analytics/web/template?uid=34UHDnC1QcebcyNxlRNxIQ
-
-
--- if you are able to correctly implement the GA dashboard, your dashboard will look similar to this:
-![Analytics Dashboard](AnalyticsWebDataUseCase.jpg)
 
 
 ## Link to the final deployed web application :
